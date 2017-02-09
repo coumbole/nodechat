@@ -1,0 +1,35 @@
+extends layout
+
+block content
+	.chats
+		header.chat-header
+			h3 Contacts
+		.chat-list
+			.chat
+				.chat-title
+					span {{CHATNAME}}
+				.chat-preview
+					span {{CHATCONTENT}}
+					span.right {{CHATTIMESTAMP}}
+			.chat
+				.chat-title
+					span {{CHATNAME}}
+				.chat-preview
+					span {{CHATCONTENT}}
+					span.right {{CHATTIMESTAMP}}
+			.chat
+				.chat-title
+					span {{CHATNAME}}
+				.chat-preview
+					span {{CHATCONTENT}}
+					span.right {{CHATTIMESTAMP}}
+	.messages
+		header.convo-header
+			h3 Messages
+		.convo
+		footer.convo-footer
+			.compose
+				.input-container
+					.input(contenteditable="true")
+				.send-container
+					button.send-button(type="button") Send

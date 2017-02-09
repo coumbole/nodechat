@@ -1,0 +1,118 @@
+$black: #000
+$super-light-gray: #fafafa
+$med-light-gray: #eee
+$gray: #afafaf
+$white: #fff
+
+
+.chats
+  background-color: $super-light-gray
+  display: -webkit-flex 
+  display: flex
+  flex-direction: column
+  width: 30%
+  height: 100%
+  border-right: 1px solid $med-light-gray
+
+
+.chat-header
+  align-items: center
+  background-color: $gray
+  display: flex
+  height: 40px
+
+  h3
+    margin: 0
+    padding: 5px 10px
+
+.chat-list
+  align-self: stretch
+  background-color: $med-light-gray
+
+.chat
+  height: 50px
+  padding: 5px 10px
+
+.messages
+  background-color: $super-light-gray
+  display: -webkit-flex 
+  display: flex
+  height: 100%
+  flex-direction: column
+  width: 70%
+
+
+.convo-header
+  align-items: center
+  background-color: #afafaf
+  display: flex
+  flex: 0 0 auto
+  height: 40px
+  order: 1
+  position: relative
+  width: 100%
+
+  h3
+    margin: 0
+    padding: 5px 10px
+
+.convo
+  background-color: $med-light-gray
+  flex: 1 1 0
+  order: 2
+  padding: 5px 20px
+  position: relative
+  
+.convo-footer
+  align-items: center
+  background-color: $gray
+  display: -webkit-flex
+  display: flex
+  flex: 0 0 auto
+  order: 3
+  height: 60px
+  width: 100%
+  position: relative
+  
+  .compose
+    align-items: center
+    background-color: $gray
+    display: flex
+    flex-direction: row
+    width: 100%
+    height: 100%
+    padding: 12px 20px
+    position: relative
+
+    .input-container
+      background-color: $white
+      background-clip: padding-box
+      border-color: $white
+      border-radius: 3px
+      border-style: solid
+      border-width: 1px
+      flex: 1 1 auto
+      min-height: 20px
+      min-width: 0
+      padding: 7px 12px
+      width: 100%
+
+      .input
+        background-color: $white
+        -moz-user-select: text
+        font-size: 15px
+        max-height: 100px
+        min-height: 20px
+        outline: medium none
+        overflow-y: auto
+        overflow-wrap: break-word
+        width: 100%
+
+  
+    .send-container
+      padding-left: 15px
+
+
+.right
+  float: right
+

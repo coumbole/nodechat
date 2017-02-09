@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	.content
+		.title
+			h1 Welcome to the Nodechat
+
+		.flex-column
+			h2 To use the service, please sign up or login
+			.login
+				a(href="/login/") Log in
+				a(href="/register/") Sign up
