@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	.flex-column
+		.title
+			h2 Log in here
+
+		.form-container
+			form(method="POST").login-form
+				ul.flex-outer
+					li
+						label(for="email" id="usrlabel") Email
+						input(type="text" id="email")
+
+					li
+						label(for="password" id="passlabel") Password
+						input(type="password" id="password")
+
+					li
+						input(type="submit" value="Login")
