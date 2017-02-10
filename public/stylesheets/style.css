@@ -38,9 +38,17 @@
   padding: 30px 30px; }
 
 .flex-column {
+  display: -webkit-flex;
+  display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 600px; }
+  justify-content: center;
+  margin: auto;
+  max-width: 600px;
+  width: 100%; }
+  .flex-column h2 {
+    text-align: center; }
+  .flex-column a {
+    text-align: center; }
 
 .login {
   display: -webkit-flex;

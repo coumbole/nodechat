@@ -12,7 +12,8 @@ firebase.initializeApp(configs.firebase)
  *	Homepage routing etc
  */
 router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Nodechat' })
+	var user = firebase.auth().currentUser
+	res.render('index', { user: user })
 })
 
 

@@ -3,10 +3,15 @@ extends layout
 block content
 	.content
 		.title
-			h1 Welcome to the Nodechat
+			h1 Welcome to Nodechat
 
-		.flex-column
-			h2 To use the service, please sign up or login
-			.login
-				a(href="/login/") Log in
-				a(href="/register/") Sign up
+		if user == null
+			.flex-column
+				h2 To use the service, please sign up or login
+				.login
+					a(href="/login/") Log in
+					a(href="/register/") Sign up
+		else
+			.flex-column
+					h2 Let's start chatting!
+					a(href="/chat/") Chat
