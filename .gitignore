@@ -38,3 +38,6 @@ jspm_packages
 
 # Sass cache
 .sass-cache
+
+# Secret api keys
+configs.json
