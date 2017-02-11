@@ -3,6 +3,7 @@ $super-light-gray: #fafafa
 $med-light-gray: #eee
 $gray: #afafaf
 $white: #fff
+$light-blue: #cfeeee
 
 
 .chats
@@ -56,23 +57,29 @@ $white: #fff
     padding: 5px 10px
 
 .convo
-  background-color: $med-light-gray
+  background-color: $light-blue
   flex: 1 1 0
   order: 2
+  overflow-x: hidden
+  overflow-y: scroll
   padding: 5px 20px
   position: relative
 
   .msg-container
     margin: 0 auto
     min-height: 50px
-    padding: 10px 0
+    padding: 5px 0
     width: 100%
 
     .msg
+      background-color: $white
+      border-radius: 5px
+      border-color: $super-light-gray
       display: -webkit-flex
       display: flex
       flex-direction: column
       max-width: 300px
+      padding: 5px 10px
 
       .msg-author
         align-self: flex-start
@@ -82,6 +89,7 @@ $white: #fff
       .msg-content
         flex-grow: 4
         font-size: 0.9em
+        overflow-wrap: break-word
     
       .msg-timestamp
         align-self: flex-end
@@ -92,7 +100,6 @@ $white: #fff
   
 .convo-footer
   align-items: center
-  background-color: $gray
   display: -webkit-flex
   display: flex
   flex: 0 0 auto
@@ -103,7 +110,7 @@ $white: #fff
   
   .compose
     align-items: center
-    background-color: $gray
+    background-color: #ddd
     display: flex
     flex-direction: row
     width: 100%

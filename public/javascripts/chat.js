@@ -59,6 +59,11 @@ window.onload = () => {
 			$('.convo').append(
 				renderMsgHtml(msgdata)
 			)
+
+			// When a mewssage is appended, scroll automatically down
+			$('.convo').scrollTop($('.convo')[0].scrollHeight)
+
+
 			messages.push(msgdata)
 
 			/**

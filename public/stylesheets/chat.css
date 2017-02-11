@@ -45,28 +45,35 @@
     padding: 5px 10px; }
 
 .convo {
-  background-color: #eee;
+  background-color: #cfeeee;
   flex: 1 1 0;
   order: 2;
+  overflow-x: hidden;
+  overflow-y: scroll;
   padding: 5px 20px;
   position: relative; }
   .convo .msg-container {
     margin: 0 auto;
     min-height: 50px;
-    padding: 10px 0;
+    padding: 5px 0;
     width: 100%; }
     .convo .msg-container .msg {
+      background-color: #fff;
+      border-radius: 5px;
+      border-color: #fafafa;
       display: -webkit-flex;
       display: flex;
       flex-direction: column;
-      max-width: 300px; }
+      max-width: 300px;
+      padding: 5px 10px; }
       .convo .msg-container .msg .msg-author {
         align-self: flex-start;
         font-size: 0.8em;
         font-weight: bold; }
       .convo .msg-container .msg .msg-content {
         flex-grow: 4;
-        font-size: 0.9em; }
+        font-size: 0.9em;
+        overflow-wrap: break-word; }
       .convo .msg-container .msg .msg-timestamp {
         align-self: flex-end;
         color: #afafaf;
@@ -75,7 +82,6 @@
 
 .convo-footer {
   align-items: center;
-  background-color: #afafaf;
   display: -webkit-flex;
   display: flex;
   flex: 0 0 auto;
@@ -85,7 +91,7 @@
   position: relative; }
   .convo-footer .compose {
     align-items: center;
-    background-color: #afafaf;
+    background-color: #ddd;
     display: flex;
     flex-direction: row;
     width: 100%;
