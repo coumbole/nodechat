@@ -43,7 +43,11 @@ router.get('/chat/', isAuthenticated, (req, res) => {
 	 * chatdata to the template
 	 */
 	globalchatref.once('value').then( (snapshot) => {
-		res.render('chat', { chatdata: snapshot.val() })
+		res.render('chat', { 
+			user: firebase.auth().currentUser,
+			chatdata: snapshot.val(),
+			firebase: firebase
+		})
 	})
 
 })
