@@ -1,27 +1,64 @@
 /* eslint-disable */
 window.onload = () => {
-	var messages = []
-	var socket = io.connect('localhost:3000')
 
-	socket.on('message', (data) => {
+	/**
+	 *	Holds the messages of a single session.
+	 *	In the beginning of a session, the
+	 *	messages from firebase are stored
+	 *	into this, and all future messages
+	 *	are appended in the end.
+	 */
+	messages = []
+
+
+	var socket = io.connect('localhost:3000')
+	
+	function renderMsgHtml(data) {
+		var html = '<div class="msg-container">'
+		html += '<div class="msg">'
+		html += '<div class="msg-author">'
+		html += data.sender
+		html += '</div>'
+		html += '<div class="msg-content">'
+		html += data.content
+		html += '</div>'
+		html += '<div class="msg-timestamp">'
+		html += data.timestamp
+		html += '</div></div></div>'
+		return html
+	}
+	/**
+	 * The socket reacts to a 'message' event.
+	 * Then the data from the message is 
+	 * parsed to the correct format (the same
+	 * that is used in firebase). This is done,
+	 * because when the session ends, all the
+	 * messages are pushed to firebase.
+	 */
+	socket.on('chatmessage', (data) => {
 		if(data.message) {
-			messages.push(data.message)
-			var html = ''
-			for (var i=0; i<messages.length; i++) {
-				html += messages[i] + '<br/>'
+			var msgdata = {
+					"sender"		: "anon",
+					"content"		: data.message,
+					"timestamp" : "080917-153923"
 			}
-			$('.convo').innerHTML = html
+			messages.push(msgdata)
+			$('.convo').append(
+				renderMsgHtml(msgdata)
+			)
 		} else {
 			console.log('There was a problem: ', data)
 		}
 	})
 
-	// When send button is clicked, emit the message
+	/**
+	 * When send button is clicked,
+	 * emit the message
+	 */
 	$('form').submit( (e) => {
 		e.preventDefault()
 		var msg = $('.input').val()
-		socket.emit('send', { message: msg })
-		alert(msg)
+		socket.emit('chatmessage', { message: msg })
 		$('.input').val('')
 	})
 
