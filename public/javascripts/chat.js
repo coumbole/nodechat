@@ -6,7 +6,6 @@ window.onload = () => {
 	socket.on('message', (data) => {
 		if(data.message) {
 			messages.push(data.message)
-			alert(messages)
 			var html = ''
 			for (var i=0; i<messages.length; i++) {
 				html += messages[i] + '<br/>'
@@ -17,12 +16,21 @@ window.onload = () => {
 		}
 	})
 
+	// When send button is clicked, emit the message
 	$('form').submit( (e) => {
 		e.preventDefault()
 		var msg = $('.input').val()
-		socket.emit('send', { messages: msg })
+		socket.emit('send', { message: msg })
 		alert(msg)
 		$('.input').val('')
 	})
+
+	// Allow sending messages with enter
+	$('.input').keypress( (e) => {
+		if (e.which === 13) {
+			$('form').submit()
+			return false
+		}
+	} )
 }
 /* eslint-enable */

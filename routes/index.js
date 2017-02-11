@@ -8,6 +8,19 @@ var configs = require('../configs.json')
 
 firebase.initializeApp(configs.firebase)
 
+var db = firebase.database()
+var globalchatref = db.ref('chat/global')
+
+
+/**
+ * Middleware to ensure only authenticated users can chat
+ */
+function isAuthenticated(req, res, next) {
+	var user = firebase.auth().currentUser
+	if (user) return next()
+	else res.redirect('/login')
+}
+
 /*
  *	Homepage routing etc
  */
@@ -19,9 +32,20 @@ router.get('/', (req, res) => {
 
 /*
  *	Chat page routing
+ *
+ *	To require logging in, add isAuthenticated middleware
+ *	between '/chat/' and (req, res)
  */
-router.get('/chat/', (req, res) => {
-	res.render('chat')
+router.get('/chat/', isAuthenticated, (req, res) => {
+	
+	/**
+	 * Once data is fetched, render the page and pass
+	 * chatdata to the template
+	 */
+	globalchatref.once('value').then( (snapshot) => {
+		res.render('chat', { chatdata: snapshot.val() })
+	})
+
 })
 
 

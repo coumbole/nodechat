@@ -12,7 +12,16 @@ block content
 	.messages
 		header.convo-header
 			h3 Messages
-		#convo.convo
+		.convo
+			each msg in chatdata.messages
+				.msg-container
+					.msg
+						.msg-author
+							= msg.sender
+						.msg-content
+							= msg.content
+						.msg-timestamp
+							= msg.timestamp
 		footer.convo-footer
 			form.compose
 				.input-container

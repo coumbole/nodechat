@@ -61,6 +61,34 @@ $white: #fff
   order: 2
   padding: 5px 20px
   position: relative
+
+  .msg-container
+    margin: 0 auto
+    min-height: 50px
+    padding: 10px 0
+    width: 100%
+
+    .msg
+      display: -webkit-flex
+      display: flex
+      flex-direction: column
+      max-width: 300px
+
+      .msg-author
+        align-self: flex-start
+        font-size: 0.8em
+        font-weight: bold
+
+      .msg-content
+        flex-grow: 4
+        font-size: 0.9em
+    
+      .msg-timestamp
+        align-self: flex-end
+        color: $gray
+        flex-grow: 1
+        font-size: 0.6em
+      
   
 .convo-footer
   align-items: center
@@ -98,6 +126,7 @@ $white: #fff
 
       .input
         background-color: $white
+        border: 0
         -moz-user-select: text
         font-size: 15px
         max-height: 100px
