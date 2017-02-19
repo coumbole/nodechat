@@ -23,6 +23,8 @@ app.set('port', port)
 var server = http.createServer(app)
 
 var firebase = require('firebase')
+var db = firebase.database()
+
 /**
 * Set up a socket.io instance
 */
@@ -35,29 +37,70 @@ server.listen(port)
 server.on('error', onError)
 server.on('listening', onListening)
 
+
+/**
+ * Handle socket.io stuff
+ *
+ * This handles all the logic regarding
+ * user interaction with the websocket
+ * including connection, sending messages etc.
+ */
 io.on('connection', (socket) => {
-	if (firebase.auth().currentUser) {
-		console.log(firebase.auth().currentUser.email + ' connected')
-	} else {
-		console.log('Anon connected')
+
+  // Make the user variable accessible 
+  var user = firebase.auth().currentUser
+
+  var nick = null
+
+  /**
+   * Fetch a nickname for the user. If it doesn't
+   * exist, create an entry for it in the database
+   * using the email address.
+   */
+  firebase.auth().onAuthStateChanged( (usr) => {
+    if (usr) {
+      var userRef = db.ref('users/')
+      userRef.child(usr.uid).once('value', (snapshot) => {
+        var exists = (snapshot.val() !== null)
+        if (exists) {
+          console.log('User node exist')
+          console.log('Setting nick variable')
+          db.ref('users/' + usr.uid).once('value', (snapshot) => {
+            snapshot.forEach( (child) => {
+              console.log("child.val(): " + child.val())
+              nick = child.val()
+            })
+          })
+        } else {
+          userRef.child(usr.uid).set({
+            'nickname': usr.email.slice(0, 8)
+          })
+          console.log('Set nickname to default usign email')
+        }
+      })
+    } else {
+      console.log("No user logged in, perhaps logged out")
+    }
+  })
+
+
+  /**
+   * For debugging purposes, print to console
+   * if the connected user is authenticated
+   */
+  if (user) {
+    console.log(user.email + ' connected')
+  } else {
+    console.log('Anon connected')
 	}
-
-
-	/**
-	 * Handle loggin in
-	 * TODO:
-	 *	- When a user logs in, fetch old
-	 *		conversations
-	 */
-	/*
-	socket.emit('chatmessage', { 
-		message: 'Welcome to the chat!', 
-		sender: 'admin'
-	})
-	*/
 
 	/**
 	 * Handle sent messages. 
+   *
+   * If the message begins with a command,
+   * handle it accordingly. (etc display help
+   * or change nickname)
+   *
 	 * In the event of 'chatmessage', 
 	 * emit that message to everyone.
 	 *
@@ -67,22 +110,42 @@ io.on('connection', (socket) => {
 	 * sent as well to identify chatters.
 	 */
 	socket.on('chatmessage', (msg) => {
-		var user = firebase.auth().currentUser
-		console.log(user.email + ': ' + msg.message)
+		console.log(nick+ ': ' + msg.message)
 		/* eslint-disable */
 		var data = {
 			"message": msg.message,
-			"sender": user
+			"sender": nick,
+      "timestamp": '010199-01230'
 		}
 		/* eslint-enable */
-		io.emit('chatmessage', data)
+
+    // Split the message string into an array
+    var cmd = data.message.trim().split(' ')
+
+    // In case the message starts with a command, handle that
+    // Otherwise emit the message
+    switch (cmd[0]) {
+      case '/help':
+        data.message = 'Type /nick <nickname> to change nick'
+        data.sender = 'Admin'
+        io.emit('chatmessage', data)
+        break
+      case '/nick':
+        db.ref('users').child(user.uid).update({
+          'nickname': cmd[1]
+        })
+        nick = cmd[1]
+        data.message = 'Changed nickname to ' + cmd[1]
+        data.sender = 'Admin'
+        io.emit('chatmessage', data)
+        break
+      default:
+        io.emit('chatmessage', data)
+    }
 	})
 
 	/**
 	 * Handle disconnection
-	 * TODO: 
-	 *	- Save sent messages in json format
-	 *		to firebase
 	 */
 	socket.on('disconnect', () => {
 		console.log('Client disconnected')

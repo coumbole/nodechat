@@ -25,7 +25,7 @@ window.onload = () => {
 		html += data.sender
 		html += '</div>'
 		html += '<div class="msg-content">'
-		html += data.content
+		html += data.message
 		html += '</div>'
 		html += '<div class="msg-timestamp">'
 		html += data.timestamp
@@ -51,13 +51,8 @@ window.onload = () => {
 		 *	- Add real timestamps to the messages
 		 */ 
 		if(data.message) {
-			var msgdata = {
-					"sender"		: "anon",
-					"content"		: data.message,
-					"timestamp" : "080917-153923"
-			}
 			$('.convo').append(
-				renderMsgHtml(msgdata)
+				renderMsgHtml(data)
 			)
 
 			// When a mewssage is appended, scroll automatically down
