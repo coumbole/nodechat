@@ -9,7 +9,8 @@ var configs = require('../configs.json')
 firebase.initializeApp(configs.firebase)
 
 var db = firebase.database()
-var globalchatref = db.ref('chat/global')
+var chatref = db.ref('chat')
+var globalchatref = chatref.child('global')
 
 
 /**
@@ -42,13 +43,16 @@ router.get('/chat/', isAuthenticated, (req, res) => {
 	 * Once data is fetched, render the page and pass
 	 * chatdata to the template
 	 */
-	globalchatref.once('value').then( (snapshot) => {
-		res.render('chat', { 
-			user: firebase.auth().currentUser,
-			chatdata: snapshot.val(),
-			firebase: firebase
-		})
-	})
+  chatref.once('value').then( (snapshot) => {
+    var chats = snapshot.val()
+    var global = snapshot.child('global').val()
+
+    res.render('chat', {
+      user: firebase.auth().currentUser,
+      chatdata: global,
+      chats: chats
+    })
+  })
 
 })
 

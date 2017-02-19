@@ -61,7 +61,6 @@ io.on('connection', (socket) => {
 
   // Make the user variable accessible 
   var user = firebase.auth().currentUser
-
   var nick = null
 
   /**
@@ -75,11 +74,8 @@ io.on('connection', (socket) => {
       userRef.child(usr.uid).once('value', (snapshot) => {
         var exists = (snapshot.val() !== null)
         if (exists) {
-          console.log('User node exist')
-          console.log('Setting nick variable')
           db.ref('users/' + usr.uid).once('value', (snapshot) => {
             snapshot.forEach( (child) => {
-              console.log("child.val(): " + child.val())
               nick = child.val()
             })
           })
@@ -87,7 +83,6 @@ io.on('connection', (socket) => {
           userRef.child(usr.uid).set({
             'nickname': usr.email.slice(0, 8)
           })
-          console.log('Set nickname to default usign email')
         }
       })
     } else {

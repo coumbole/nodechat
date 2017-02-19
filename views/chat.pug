@@ -1,32 +1,42 @@
 extends layout
 block headscripts
-	script(type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.min.js')
-	script(type='text/javascript' src='/socket.io/socket.io.js')
-	- var fb = firebase
+  script(type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.min.js')
+  script(type='text/javascript' src='/socket.io/socket.io.js')
 block content
-	.chats
-		header.chat-header
-			h3 Contacts
-		.chat-list
-	.messages
-		header.convo-header
-			h3 Messages
-		- var fbdata = chatdata
-		- var messages = []
-		script(type='text/javascript' src='/javascripts/chat.js')
-		.convo
-			each msg in fbdata.messages
-				.msg-container
-					.msg
-						.msg-author
-							= msg.sender
-						.msg-content
-							= msg.content
-						.msg-timestamp
-							= msg.timestamp
-		footer.convo-footer
-			form.compose
-				.input-container
-					input.input(type='text' value='')
-				.send-container
-					input(type='submit' value='Send')
+  .chats
+    header.chat-header
+      h3 Chats
+    .chat-list
+      .chat
+        .chat-new
+          i.fa.fa-plus(aria-hidden='true')
+        .chat-title
+          h4 Create new
+      each chat in chats
+        .chat
+          .chat-icon
+          .chat-title
+            h4
+              = chat.title
+  .messages
+    header.convo-header
+      h3 Messages
+    - var fbdata = chatdata
+    - var messages = []
+    script(type='text/javascript' src='/javascripts/chat.js')
+    .convo
+      each msg in fbdata.messages
+        .msg-container
+          .msg
+            .msg-author
+              = msg.sender
+            .msg-content
+              = msg.content
+            .msg-timestamp
+              = msg.timestamp
+    footer.convo-footer
+      form.compose
+        .input-container
+          input.input(type='text' value='')
+        .send-container
+          input(type='submit' value='Send')

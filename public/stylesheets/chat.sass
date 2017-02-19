@@ -4,6 +4,7 @@ $med-light-gray: #eee
 $gray: #afafaf
 $white: #fff
 $light-blue: #cfeeee
+$active-color: #5588ff
 
 
 .chats
@@ -27,11 +28,30 @@ $light-blue: #cfeeee
 
 .chat-list
   align-self: stretch
-  background-color: $med-light-gray
 
 .chat
+  align-items: center
+  border-bottom: 1px solid $gray
+  cursor: pointer
+  display: --webkit-flex
+  display: flex
   height: 50px
   padding: 5px 10px
+
+  &:hover
+    background-color: $med-light-gray
+
+  &.selected
+    background-color: $med-light-gray
+
+  .chat-new
+    padding: 0 10px
+
+  .chat-title
+    flex-grow: 6
+    h4
+      margin: 0
+      padding: 0
 
 .messages
   background-color: $super-light-gray

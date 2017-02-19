@@ -94,6 +94,15 @@ window.onload = () => {
 		}
 	})
 
+  $('.chat').click( (e) => {
+    $('.selected').removeClass('selected')
+    if ($(e.target).is('h4')) {
+      $(e.target).parent().parent().addClass('selected')
+    } else {
+      $(e.target).addClass('selected')
+    }
+  })
+
 	/**
 	 * When send button is clicked,
 	 * emit the message to server
@@ -112,6 +121,8 @@ window.onload = () => {
 			$('form').submit()
 			return false
 		}
-	} )
+	})
+
+
 }
 /* eslint-enable */

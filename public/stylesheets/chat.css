@@ -16,12 +16,27 @@
     padding: 5px 10px; }
 
 .chat-list {
-  align-self: stretch;
-  background-color: #eee; }
+  align-self: stretch; }
 
 .chat {
+  align-items: center;
+  border-bottom: 1px solid #afafaf;
+  cursor: pointer;
+  display: --webkit-flex;
+  display: flex;
   height: 50px;
   padding: 5px 10px; }
+  .chat:hover {
+    background-color: #eee; }
+  .chat.selected {
+    background-color: #eee; }
+  .chat .chat-new {
+    padding: 0 10px; }
+  .chat .chat-title {
+    flex-grow: 6; }
+    .chat .chat-title h4 {
+      margin: 0;
+      padding: 0; }
 
 .messages {
   background-color: #fafafa;
