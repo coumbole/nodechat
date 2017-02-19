@@ -39,6 +39,18 @@ server.on('listening', onListening)
 
 
 /**
+ * Returns a timestamp string
+ */
+function createTimestamp() {
+  var d = new Date()
+  var h = d.getHours()
+  var m = d.getMinutes()
+  if (h < 10) h = '0' + h
+  if (m < 10) m = '0' + m
+  return h + ':' + m
+}
+
+/**
  * Handle socket.io stuff
  *
  * This handles all the logic regarding
@@ -115,7 +127,7 @@ io.on('connection', (socket) => {
 		var data = {
 			"message": msg.message,
 			"sender": nick,
-      "timestamp": '010199-01230'
+      "timestamp": createTimestamp()
 		}
 		/* eslint-enable */
 
