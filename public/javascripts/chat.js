@@ -27,6 +27,7 @@ function getCurrentRoom() {
   return $('.selected .chat-title h4').html()
 }
 
+
 window.onload = () => {
 
   //Default chatroom is Global
@@ -65,6 +66,7 @@ window.onload = () => {
     }
   })
 
+
 	/**
 	 * When send button is clicked,
 	 * emit the message to server
@@ -76,7 +78,8 @@ window.onload = () => {
     var data = {
       "message": content,
       "nick": nick,
-      "sender": user
+      "sender": user,
+      "room": getCurrentRoom()
     }
     socket.emit('chatmessage', data )
     $('.input').val('')
@@ -103,15 +106,24 @@ window.onload = () => {
   /**
    * Allows the user to choose a chatroom to join
    * and chat in.
+   *
+   * When a user clicks a chatroom the user is first
+   * unsubscribed from the previous chatroom, and is
+   * then subscribed to a new one. Emitting the 
+   * (un)subscribe message to server calls the
+   * corresponding socket.leave/join methods 
+   * on the server side.
    */
   $('.chat').not('#newchat').click( (e) => {
+    socket.emit('unsubscribe', getCurrentRoom())
     $('.selected').removeClass('selected')
     if ($(e.target).is('h4')) {
       $(e.target).parent().parent().addClass('selected')
     } else {
       $(e.target).addClass('selected')
     }
-    $('#chatTitle').html(getCurrentRoom)
+    $('#chatTitle').html(getCurrentRoom())
+    socket.emit('subscribe', getCurrentRoom() )
   })
 }
 

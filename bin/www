@@ -60,13 +60,24 @@ function createTimestamp() {
 io.on('connection', (socket) => {
 
   // By default join the global chatroom
-  //socket.join('global')
+  socket.join('global')
+  console.log('Client joined chatroom "Global"')
 
   /**
    * Client can join different channels using the 
    * subscribe method on the client side. It triggers
    * the socket.join -method on the server side.
    */
+
+  socket.on('unsubscribe', (room) => {
+    console.log('Unsubscribing from ' + room)
+    socket.leave(room)
+  })
+
+  socket.on('subscribe', (room) => {
+    console.log('Joining room ' + room)
+    socket.join(room)
+  })
 
   /**
    * Handle sent messages. 
@@ -90,9 +101,11 @@ io.on('connection', (socket) => {
       "message": msg.message,
       "nickname": msg.nick,
       "sender": msg.sender,
-      "timestamp": createTimestamp()
+      "timestamp": createTimestamp(),
+      "room": msg.room
     }
     /* eslint-enable */
+    console.log('Message sent to room: ' + data.room)
 
     // Split the message string into an array
     var cmd = data.message.trim().split(' ')
@@ -119,7 +132,7 @@ io.on('connection', (socket) => {
         socket.emit('chatmessage', data)
         break
       default:
-        io.emit('chatmessage', data)
+        io.to(data.room).emit('chatmessage', data)
     }
   })
   /* eslint-enable */

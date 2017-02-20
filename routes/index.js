@@ -38,8 +38,6 @@ router.get('/chat/', isAuthenticated, (req, res) => {
   var user = firebase.auth().currentUser
 
   console.log('Current user is ' + user.email)
-  console.log('userid: ' + user.uid)
-
 
   var nick = null
   var global = null
