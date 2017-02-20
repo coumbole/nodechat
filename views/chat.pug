@@ -7,25 +7,26 @@ block content
     header.chat-header
       h3 Chats
     .chat-list
-      .chat
+      .chat#newchat
         .chat-new
           i.fa.fa-plus(aria-hidden='true')
         .chat-title
           h4 Create new
       each chat in chats
-        .chat
+        .chat#selectChat
           .chat-icon
           .chat-title
             h4
               = chat.title
   .messages
     header.convo-header
-      h3 Messages
-    - var fbdata = chatdata
-    - var messages = []
+      h3#chatTitle Messages
+    script. 
+      var nick = !{JSON.stringify(nickname)}
+      var user = !{JSON.stringify(user)}
     script(type='text/javascript' src='/javascripts/chat.js')
     .convo
-      each msg in fbdata.messages
+      each msg in chatdata.messages
         .msg-container
           .msg
             .msg-author

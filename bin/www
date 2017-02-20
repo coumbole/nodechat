@@ -59,104 +59,77 @@ function createTimestamp() {
  */
 io.on('connection', (socket) => {
 
-  // Make the user variable accessible 
-  var user = firebase.auth().currentUser
-  var nick = null
+  // By default join the global chatroom
+  //socket.join('global')
 
   /**
-   * Fetch a nickname for the user. If it doesn't
-   * exist, create an entry for it in the database
-   * using the email address.
+   * Client can join different channels using the 
+   * subscribe method on the client side. It triggers
+   * the socket.join -method on the server side.
    */
-  firebase.auth().onAuthStateChanged( (usr) => {
-    if (usr) {
-      var userRef = db.ref('users/')
-      userRef.child(usr.uid).once('value', (snapshot) => {
-        var exists = (snapshot.val() !== null)
-        if (exists) {
-          db.ref('users/' + usr.uid).once('value', (snapshot) => {
-            snapshot.forEach( (child) => {
-              nick = child.val()
-            })
-          })
-        } else {
-          userRef.child(usr.uid).set({
-            'nickname': usr.email.slice(0, 8)
-          })
-        }
-      })
-    } else {
-      console.log("No user logged in, perhaps logged out")
-    }
-  })
-
 
   /**
-   * For debugging purposes, print to console
-   * if the connected user is authenticated
-   */
-  if (user) {
-    console.log(user.email + ' connected')
-  } else {
-    console.log('Anon connected')
-	}
-
-	/**
-	 * Handle sent messages. 
+   * Handle sent messages. 
    *
    * If the message begins with a command,
    * handle it accordingly. (etc display help
    * or change nickname)
    *
-	 * In the event of 'chatmessage', 
-	 * emit that message to everyone.
-	 *
-	 * Client only sends the content of the
-	 * message. When the message is emitted
-	 * back to the client, the user data is
-	 * sent as well to identify chatters.
-	 */
-	socket.on('chatmessage', (msg) => {
-		console.log(nick+ ': ' + msg.message)
-		/* eslint-disable */
-		var data = {
-			"message": msg.message,
-			"sender": nick,
+   * In the event of 'chatmessage', 
+   * emit that message to everyone.
+   *
+   * Client only sends the content of the
+   * message. When the message is emitted
+   * back to the client, the user data is
+   * sent as well to identify chatters.
+   */
+  socket.on('chatmessage', (msg) => {
+    console.log(msg.nick+ ': ' + msg.message)
+    /* eslint-disable */
+    var data = {
+      "message": msg.message,
+      "nickname": msg.nick,
+      "sender": msg.sender,
       "timestamp": createTimestamp()
-		}
-		/* eslint-enable */
+    }
+    /* eslint-enable */
 
     // Split the message string into an array
     var cmd = data.message.trim().split(' ')
 
-    // In case the message starts with a command, handle that
-    // Otherwise emit the message
+    /**
+     * In case the user sends a command (etc
+     * /help or /nick), the response is emitted
+     * only back to them. In any other case, everyone
+     * gets the message
+     */
+    /* eslint-disable*/
     switch (cmd[0]) {
       case '/help':
         data.message = 'Type /nick <nickname> to change nick'
         data.sender = 'Admin'
-        io.emit('chatmessage', data)
+        socket.emit('chatmessage', data)
         break
       case '/nick':
-        db.ref('users').child(user.uid).update({
+        db.ref('users').child(data.sender.uid).update({
           'nickname': cmd[1]
         })
-        nick = cmd[1]
         data.message = 'Changed nickname to ' + cmd[1]
-        data.sender = 'Admin'
-        io.emit('chatmessage', data)
+        data.nickname = 'Admin'
+        socket.emit('chatmessage', data)
         break
       default:
         io.emit('chatmessage', data)
     }
-	})
+  })
+  /* eslint-enable */
 
-	/**
-	 * Handle disconnection
-	 */
-	socket.on('disconnect', () => {
-		console.log('Client disconnected')
-	})
+  /**
+   * Handle disconnection
+   */
+  socket.on('disconnect', () => {
+    console.log('Client disconnected')
+  })
 })
 
 
@@ -165,19 +138,19 @@ io.on('connection', (socket) => {
  */
 
 function normalizePort(val) {
-	var port = parseInt(val, 10)
+  var port = parseInt(val, 10)
 
-	if (isNaN(port)) {
-		// named pipe
-		return val
-	}
+  if (isNaN(port)) {
+    // named pipe
+    return val
+  }
 
-	if (port >= 0) {
-		// port number
-		return port
-	}
+  if (port >= 0) {
+    // port number
+    return port
+  }
 
-	return false
+  return false
 }
 
 /**
@@ -185,27 +158,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-	if (error.syscall !== 'listen') {
-		throw error
-	}
+  if (error.syscall !== 'listen') {
+    throw error
+  }
 
-	var bind = typeof port === 'string'
+  var bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port
 
   // handle specific listen errors with friendly messages
-	switch (error.code) {
-	case 'EACCES':
-		console.error(bind + ' requires elevated privileges')
-		process.exit(1)
-		break
-	case 'EADDRINUSE':
-		console.error(bind + ' is already in use')
-		process.exit(1)
-		break
-	default:
-		throw error
-	}
+  switch (error.code) {
+  case 'EACCES':
+    console.error(bind + ' requires elevated privileges')
+    process.exit(1)
+    break
+  case 'EADDRINUSE':
+    console.error(bind + ' is already in use')
+    process.exit(1)
+    break
+  default:
+    throw error
+  }
 }
 
 /**
@@ -213,9 +186,9 @@ function onError(error) {
  */
 
 function onListening() {
-	var addr = server.address()
-	var bind = typeof addr === 'string'
+  var addr = server.address()
+  var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port
-	debug('Listening on ' + bind)
+  debug('Listening on ' + bind)
 }
