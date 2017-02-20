@@ -22,17 +22,21 @@ block content
     script. 
       var nick = !{JSON.stringify(nickname)}
       var user = !{JSON.stringify(user)}
+      var chats = !{JSON.stringify(chats)}
     script(type='text/javascript' src='/javascripts/chat.js')
-    .convo
-      each msg in chatdata.messages
-        .msg-container
-          .msg
-            .msg-author
-              = msg.sender
-            .msg-content
-              = msg.content
-            .msg-timestamp
-              = msg.timestamp
+
+    each chat in chats
+      - var chatid = chat.title
+      .convo(id=chatid style='display:none')
+        each msg in chat.messages
+          .msg-container
+            .msg
+              .msg-author
+                = msg.sender
+              .msg-content
+                = msg.content
+              .msg-timestamp
+                = msg.timestamp
     footer.convo-footer
       form.compose
         .input-container

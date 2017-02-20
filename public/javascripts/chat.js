@@ -36,8 +36,8 @@ window.onload = () => {
   // Set the chat title accordingly
   $('#chatTitle').html(getCurrentRoom())
 
-	//Holds the messages of a single chat session.
-  var messages = []
+  // Holds the messages of the current session
+  var messages = {}
 
 	// Grab a socket instance to interact with the server
   var socket = io.connect('localhost:3000')
@@ -55,11 +55,11 @@ window.onload = () => {
 	  * and render it to the screen
 	  */ 
     if(data.message) {
-      $('.convo').append(
+      $('#' + data.room).append(
         renderMsgHtml(data)
 	    )
 		  // When a mewssage is appended, scroll automatically down
-      $('.convo').scrollTop($('.convo')[0].scrollHeight)
+      $('#' + data.room).scrollTop($('#' + data.room)[0].scrollHeight)
       messages.push(data)
     } else {
       console.log('There was a problem: ', data)
@@ -113,16 +113,26 @@ window.onload = () => {
    * (un)subscribe message to server calls the
    * corresponding socket.leave/join methods 
    * on the server side.
+   *
+   * When a user clicks the chatroom button, also
+   * highlight it and display the corresponding
+   * messages.
    */
   $('.chat').not('#newchat').click( (e) => {
+
     socket.emit('unsubscribe', getCurrentRoom())
+
     $('.selected').removeClass('selected')
+
     if ($(e.target).is('h4')) {
       $(e.target).parent().parent().addClass('selected')
     } else {
       $(e.target).addClass('selected')
     }
+
     $('#chatTitle').html(getCurrentRoom())
+    $('.convo').hide()
+    $('#' + getCurrentRoom()).show()
     socket.emit('subscribe', getCurrentRoom() )
   })
 }

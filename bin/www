@@ -70,12 +70,10 @@ io.on('connection', (socket) => {
    */
 
   socket.on('unsubscribe', (room) => {
-    console.log('Unsubscribing from ' + room)
     socket.leave(room)
   })
 
   socket.on('subscribe', (room) => {
-    console.log('Joining room ' + room)
     socket.join(room)
   })
 
@@ -95,7 +93,7 @@ io.on('connection', (socket) => {
    * sent as well to identify chatters.
    */
   socket.on('chatmessage', (msg) => {
-    console.log(msg.nick+ ': ' + msg.message)
+    console.log(msg.nick + '@' + msg.room + ': ' + msg.message)
     /* eslint-disable */
     var data = {
       "message": msg.message,
@@ -105,7 +103,6 @@ io.on('connection', (socket) => {
       "room": msg.room
     }
     /* eslint-enable */
-    console.log('Message sent to room: ' + data.room)
 
     // Split the message string into an array
     var cmd = data.message.trim().split(' ')

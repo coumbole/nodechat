@@ -40,7 +40,6 @@ router.get('/chat/', isAuthenticated, (req, res) => {
   console.log('Current user is ' + user.email)
 
   var nick = null
-  var global = null
   var chats = null
   
   dbref.once('value').then( (snapshot) => {
@@ -56,10 +55,8 @@ router.get('/chat/', isAuthenticated, (req, res) => {
 
     // Then fetch chatdata
     chats = snapshot.child('chat').val()
-    global = snapshot.child('chat/global').val()
 
     res.render('chat', {
-      'chatdata': global,
       'chats':    chats,
       'nickname': nick,
       'user': user
