@@ -2,12 +2,26 @@ extends layout
 block headscripts
   script(type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.min.js')
   script(type='text/javascript' src='/socket.io/socket.io.js')
+  script(src='https://use.fontawesome.com/f52a816870.js')
 block content
   .chats
     header.chat-header
-      h3 Chats
+      .left
+        h3 Chats
+      .right
+        i.fa.fa-ellipsis-v(aria-hidden="true")#user-settings
+    .user-settings#user-nav
+      .user-settings-header
+        h3 Settings
+        .right
+          a.closebtn#closebtn &times;
+      .user-settings-body
+        h3 Nickname
+        h3= nickname
     .chat-list
       .chat#newchat
+        .chat-new
+          i.fa.fa-plus.fa-fw(aria-hidden="true")#chat-settings
         .chat-title
           h4 Create new
       each chat in chats
@@ -19,7 +33,10 @@ block content
                 = chat.title
   .messages
     header.convo-header
-      h3#chatTitle Messages
+      .left
+        h3#chatTitle Messages
+      .right
+        i.fa.fa-ellipsis-v(aria-hidden="true")
     script. 
       var nick = !{JSON.stringify(nickname)}
       var user = !{JSON.stringify(user)}
@@ -44,3 +61,4 @@ block content
           input.input(type='text' value='')
         .send-container
           input(type='submit' value='Send')
+  script(type='text/javascript' src='/javascripts/settings.js')

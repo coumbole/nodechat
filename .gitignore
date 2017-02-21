@@ -41,3 +41,5 @@ jspm_packages
 
 # Secret api keys
 configs.json
+
+.DS_Store
