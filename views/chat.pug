@@ -11,11 +11,12 @@ block content
         .chat-title
           h4 Create new
       each chat in chats
-        .chat#selectChat
-          .chat-icon
-          .chat-title
-            h4
-              = chat.title
+        if chat.public
+          .chat#selectChat
+            .chat-icon
+            .chat-title
+              h4
+                = chat.title
   .messages
     header.convo-header
       h3#chatTitle Messages

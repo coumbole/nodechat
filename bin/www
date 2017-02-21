@@ -59,9 +59,20 @@ function createTimestamp() {
  */
 io.on('connection', (socket) => {
 
-  // By default join the global chatroom
-  socket.join('global')
-  console.log('Client joined chatroom "Global"')
+  // By default join all public chatrooms
+  db.ref('chat').on('value', (snapshot) => {
+    snapshot.forEach( (chat) => {
+      var pub = chat.val().public
+      //console.log('Client: ' + socket.client + ' joining room: ' + chat.val().title)
+      if (pub === true) socket.join(chat.val().title, () => {
+        console.log('joining chatroom.')
+        console.log(socket.rooms)
+      })
+    })
+  })
+
+
+  /* eslint-enable */
 
   /**
    * Client can join different channels using the 
