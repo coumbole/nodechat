@@ -1,26 +1,37 @@
 $black: #000
 $super-light-gray: #fafafa
-$med-light-gray: #eee
+$med-light-gray: #e5e5e5
 $gray: #afafaf
 $white: #fff
 $light-blue: #cfeeee
 $active-color: #5588ff
 
+.user-settings
+  background-color: $gray
+  height: 100%
+  overflow-x: hidden
+  padding-top: 50px
+  position: fixed
+  transition: 0.5s
+  width: 0
+  z-index: 1
 
 .chats
+  border-right: 1px solid $gray
   display: -webkit-flex 
   display: flex
   flex-direction: column
+  transition: margin-left 0.5s
   width: 30%
   height: 100%
-  border-right: 1px solid $med-light-gray
 
 
 .chat-header
   align-items: center
-  background-color: $gray
+  background-color: $med-light-gray
   display: flex
   height: 40px
+  justify-content: space-between
 
   h3
     margin: 0
@@ -53,6 +64,12 @@ $active-color: #5588ff
       margin: 0
       padding: 0
 
+.right
+  cursor: pointer
+  font-size: 1.3em
+  margin-right: 1em
+  opacity: 0.4
+
 .messages
   background-color: $super-light-gray
   display: -webkit-flex 
@@ -64,17 +81,21 @@ $active-color: #5588ff
 
 .convo-header
   align-items: center
-  background-color: #afafaf
+  background-color: $med-light-gray
   display: flex
   flex: 0 0 auto
   height: 40px
+  justify-content: space-between
   order: 1
   position: relative
   width: 100%
 
+
   h3
     margin: 0
     padding: 5px 10px
+
+
 
 .convo
   background-color: $light-blue
@@ -130,7 +151,7 @@ $active-color: #5588ff
   
   .compose
     align-items: center
-    background-color: #ddd
+    background-color: $med-light-gray
     display: flex
     flex-direction: row
     width: 100%
@@ -168,6 +189,4 @@ $active-color: #5588ff
       padding-left: 15px
 
 
-.right
-  float: right
 
