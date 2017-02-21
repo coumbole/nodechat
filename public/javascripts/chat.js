@@ -32,12 +32,13 @@ window.onload = () => {
 
   //Default chatroom is Global
   $('.chat:contains("global")').addClass('selected')
+  $('#' + getCurrentRoom()).show()
 
   // Set the chat title accordingly
   $('#chatTitle').html(getCurrentRoom())
 
   // Holds the messages of the current session
-  var messages = {}
+  //var messages = {}
 
 	// Grab a socket instance to interact with the server
   var socket = io.connect('localhost:3000')
@@ -60,7 +61,7 @@ window.onload = () => {
 	    )
 		  // When a mewssage is appended, scroll automatically down
       $('#' + data.room).scrollTop($('#' + data.room)[0].scrollHeight)
-      messages.push(data)
+      //messages.push(data)
     } else {
       console.log('There was a problem: ', data)
     }
@@ -120,7 +121,7 @@ window.onload = () => {
    */
   $('.chat').not('#newchat').click( (e) => {
 
-    socket.emit('unsubscribe', getCurrentRoom())
+    //socket.emit('unsubscribe', getCurrentRoom())
 
     $('.selected').removeClass('selected')
 
@@ -133,7 +134,7 @@ window.onload = () => {
     $('#chatTitle').html(getCurrentRoom())
     $('.convo').hide()
     $('#' + getCurrentRoom()).show()
-    socket.emit('subscribe', getCurrentRoom() )
+    //socket.emit('subscribe', getCurrentRoom() )
   })
 }
 
