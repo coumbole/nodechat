@@ -77,9 +77,6 @@ window.onload = () => {
   // Set the chat title accordingly
   $('#chatTitle').html(getCurrentRoom());
 
-  // Holds the messages of the current session
-  //var messages = {}
-
   // Grab a socket instance to interact with the server
   /* eslint-disable */
   var socket = io.connect('localhost:3000');

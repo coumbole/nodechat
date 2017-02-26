@@ -1,7 +1,13 @@
 # nodechat
 
-## Notes to self
-- Create tabs for new chats
-  - á la [this](https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_tabulators_sidenav)
-  - and maybe some effects like [this](https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_tabulators_grid)
-- make (un)subscribe functions on the client side, socket.join is only server side
+## Work in progress
+
+### TODO:
+
+- [] Redo color schemes and styling overall, it's hideous
+- [] Fix the user settings sidepanel to actually allow changing the nickname
+- [] Set up a chat settings panel. Room creator/admin should be able to rename or delete room. Guests should be able to leave room.
+- [] Actually implement registration. 
+  - [] Create a default nickname
+  - [] Add new user to the global chatroom by default
+- [] Implement actual chatroom admin functionality
