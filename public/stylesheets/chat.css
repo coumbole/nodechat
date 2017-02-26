@@ -1,10 +1,10 @@
 .public-chats {
   background-color: #e5e5e5;
+  display: none;
   overflow-x: hidden;
   position: fixed;
   transition: 0.3s;
-  height: 100%;
-  width: 0;
+  height: inherit;
   z-index: 1; }
 
 .user-settings {
@@ -65,11 +65,15 @@
     background-color: #e5e5e5; }
   .chat .chat-new {
     padding: 0 10px; }
+  .chat .chat-icon {
+    padding: 0 10px; }
   .chat .chat-title {
-    flex-grow: 6; }
+    flex-grow: 4; }
     .chat .chat-title h4 {
       margin: 0;
       padding: 0; }
+  .chat .chat-msg-count {
+    flex-grow: 1; }
 
 .right {
   cursor: pointer;

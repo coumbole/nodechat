@@ -28,12 +28,12 @@ block content
       .search
         .compose
           .input-container
-            input.input(placeholder="Search" type='text' value='')#searchfield
-      .public-chats
+            input.input(placeholder="Search public chats" type='text' value='')#searchfield
+      table.public-chats
         each pub in pubs
-          .chat#joinChat
-            .chat-icon
-            .chat-title
+          tr.chat#joinChat
+            td.chat-icon
+            td.chat-title
               h4= pub.title
       .chat#newchat
         .chat-new
@@ -43,8 +43,10 @@ block content
       each chat in chats
         .chat#selectChat
           .chat-icon
+            i.fa.fa-user-circle-o.fa-fw(aria-hidden="true")
           .chat-title
             h4= chat.title
+          .chat-msg-count
   .messages
     header.convo-header
       .left
