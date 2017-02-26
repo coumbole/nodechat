@@ -4,50 +4,50 @@
  * Module dependencies.
  */
 
-var app = require('../app')
-var debug = require('debug')('nodechat:server')
-var http = require('http')
+var app = require('../app');
+var debug = require('debug')('nodechat:server');
+var http = require('http');
 
 
 /**
  * Get port from environment and store in Express.
 */
 
-var port = normalizePort(process.env.PORT || '3000')
-app.set('port', port)
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 /**
 * Create HTTP server.
 */
 
-var server = http.createServer(app)
+var server = http.createServer(app);
 
-var firebase = require('firebase')
-var db = firebase.database()
+var firebase = require('firebase');
+var db = firebase.database();
 
 /**
 * Set up a socket.io instance
 */
-var io = require('socket.io')(server)
+var io = require('socket.io')(server);
 
 /**
 * Listen on provided port, on all network interfaces.
 */
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 
 /**
  * Returns a timestamp string
  */
 function createTimestamp() {
-  var d = new Date()
-  var h = d.getHours()
-  var m = d.getMinutes()
-  if (h < 10) h = '0' + h
-  if (m < 10) m = '0' + m
-  return h + ':' + m
+  var d = new Date();
+  var h = d.getHours();
+  var m = d.getMinutes();
+  if (h < 10) h = '0' + h;
+  if (m < 10) m = '0' + m;
+  return h + ':' + m;
 }
 
 /**
@@ -63,10 +63,10 @@ io.on('connection', (socket) => {
   socket.on('init', (rooms) => {
     for (var room in rooms) {
       if (rooms.hasOwnProperty(room)) {
-        socket.join(rooms[room])
+        socket.join(rooms[room]);
       }
     }
-  })
+  });
 
 
   /**
@@ -78,14 +78,14 @@ io.on('connection', (socket) => {
    */
   socket.on('newroom', (data) => {
     if (data) {
-      socket.join(data.title)
-      var newChatKey = db.ref('chat').push().key
-      var updates = {}
-      updates['/chat/' + newChatKey] = data
-      updates['/users/' + data.admin + '/rooms/' + newChatKey] = data.title
-      firebase.database().ref().update(updates)
+      socket.join(data.title);
+      var newChatKey = db.ref('chat').push().key;
+      var updates = {};
+      updates['/chat/' + newChatKey] = data;
+      updates['/users/' + data.admin + '/rooms/' + newChatKey] = data.title;
+      firebase.database().ref().update(updates);
     }
-  })
+  });
 
   /**
    * Client can join different channels using the 
@@ -93,13 +93,52 @@ io.on('connection', (socket) => {
    * the socket.join -method on the server side.
    */
 
-  socket.on('unsubscribe', (room) => {
-    socket.leave(room)
-  })
+  socket.on('unsubscribe', (data) => {
+    var chatKey = null;
+    var updates = {};
+    if (chatKey) {
+      updates['/users/' + data.uid + '/rooms/' + chatKey] = null;
+      socket.leave(data.room);
+    } else {
+      console.log('couldn\'t leave room');
+    }
+  });
 
-  socket.on('subscribe', (room) => {
-    socket.join(room)
-  })
+  /**
+   * This is called when a user wants to join a room.
+   *
+   * First create an empty updates object, that will
+   * store the info about the subscribed room that'll 
+   * be added to the user's data in firebase.
+   *
+   * Then, loop through the chat's to figure out the 
+   * corresponding roomID for the desired room's name.
+   *
+   * If this is found, update the roomdata to the user's
+   * subscribed rooms and join the chatroom.
+   *
+   * If the key cannot be found, print out an error.
+   */
+  socket.on('subscribe', (data) => {
+    var updates = {};
+    db.ref('chat').once('value').then( (snapshot) => {
+      snapshot.forEach( (chat) => {
+        if (chat.val().title === data.room) {
+
+          updates['/users/' 
+            + data.uid 
+            + '/rooms/'
+            + chat.key] = data.room;
+
+          db.ref().update(updates);
+
+          socket.join(data.room);
+        }
+      });
+    }, (error) => {
+      console.log('Couldnt join room: ' + error);
+    });
+  });
 
   /**
    * Handle sent messages. 
@@ -111,60 +150,23 @@ io.on('connection', (socket) => {
    * In the event of 'chatmessage', 
    * emit that message to everyone.
    *
-   * Client only sends the content of the
-   * message. When the message is emitted
-   * back to the client, the user data is
-   * sent as well to identify chatters.
+   * The timestamp is added to the message in the
+   * server, everything else is provided by the client.
    */
   socket.on('chatmessage', (msg) => {
-    console.log(msg.nick + '@' + msg.room + ': ' + msg.message)
-    /* eslint-disable */
-    var data = {
-      "message": msg.message,
-      "nickname": msg.nick,
-      "sender": msg.sender,
-      "timestamp": createTimestamp(),
-      "room": msg.room
-    }
-    /* eslint-enable */
-
-    // Split the message string into an array
-    var cmd = data.message.trim().split(' ')
-
-    /**
-     * In case the user sends a command (etc
-     * /help or /nick), the response is emitted
-     * only back to them. In any other case, everyone
-     * gets the message
-     */
-    /* eslint-disable*/
-    switch (cmd[0]) {
-      case '/help':
-        data.message = 'Type /nick <nickname> to change nick'
-        data.sender = 'Admin'
-        socket.emit('chatmessage', data)
-        break
-      case '/nick':
-        db.ref('users').child(data.sender.uid).update({
-          'nickname': cmd[1]
-        })
-        data.message = 'Changed nickname to ' + cmd[1]
-        data.nickname = 'Admin'
-        socket.emit('chatmessage', data)
-        break
-      default:
-        io.to(data.room).emit('chatmessage', data)
-    }
-  })
-  /* eslint-enable */
+    console.log(msg.nick + '@' + msg.room + ': ' + msg.message);
+    var data = msg;
+    data['timestamp'] = createTimestamp();
+    io.to(data.room).emit('chatmessage', data);
+  });
 
   /**
    * Handle disconnection
    */
   socket.on('disconnect', () => {
-    console.log('Client disconnected')
-  })
-})
+    console.log('Client disconnected');
+  });
+});
 
 
 /**
@@ -172,19 +174,19 @@ io.on('connection', (socket) => {
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10)
+  var port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
-    return val
+    return val;
   }
 
   if (port >= 0) {
     // port number
-    return port
+    return port;
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -193,25 +195,25 @@ function normalizePort(val) {
 
 function onError(error) {
   if (error.syscall !== 'listen') {
-    throw error
+    throw error;
   }
 
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
-    : 'Port ' + port
+    : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
   case 'EACCES':
-    console.error(bind + ' requires elevated privileges')
-    process.exit(1)
-    break
+    console.error(bind + ' requires elevated privileges');
+    process.exit(1);
+    break;
   case 'EADDRINUSE':
-    console.error(bind + ' is already in use')
-    process.exit(1)
-    break
+    console.error(bind + ' is already in use');
+    process.exit(1);
+    break;
   default:
-    throw error
+    throw error;
   }
 }
 
@@ -220,9 +222,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address()
+  var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
-    : 'port ' + addr.port
-  debug('Listening on ' + bind)
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
 }

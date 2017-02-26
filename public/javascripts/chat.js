@@ -1,4 +1,3 @@
-/* eslint-disable */
 
 
 /**
@@ -6,25 +5,25 @@
 * that can be rendered in the template
 */
 function renderMsgHtml(data) {
-  var html = '<div class="msg-container">'
-  html += '<div class="msg">'
-  html += '<div class="msg-author">'
-  html += data.nickname
-  html += '</div>'
-  html += '<div class="msg-content">'
-  html += data.message
-  html += '</div>'
-  html += '<div class="msg-timestamp">'
-  html += data.timestamp
-  html += '</div></div></div>'
-  return html
+  var html = '<div class="msg-container">';
+  html += '<div class="msg">';
+  html += '<div class="msg-author">';
+  html += data.nick;
+  html += '</div>';
+  html += '<div class="msg-content">';
+  html += data.message;
+  html += '</div>';
+  html += '<div class="msg-timestamp">';
+  html += data.timestamp;
+  html += '</div></div></div>';
+  return html;
 }
 
 /**
  * Figure out current chatroom
  */
 function getCurrentRoom() {
-  return $('.selected .chat-title h4').html()
+  return $('.selected .chat-title h4').html();
 }
 
 /**
@@ -51,19 +50,19 @@ function renderChat(name) {
 function renderConvo(title, msg) {
   var convohtml = '';
   convohtml += '<div style="display: none;" class="convo" id="' + title + '">';
-    convohtml += '<div class="msg-container">';
-      convohtml += '<div class="msg">';
-        convohtml += '<div class="msg-author">';
-          convohtml += msg.sender;
-        convohtml += '</div>';
-        convohtml += '<div class="msg-content">';
-          convohtml += msg.content;
-        convohtml += '</div>';
-        convohtml += '<div class="msg-timestamp">';
-          convohtml += msg.timestamp;
-        convohtml += '</div>'
-      convohtml += '</div>';
-    convohtml += '</div>';
+  convohtml += '<div class="msg-container">';
+  convohtml += '<div class="msg">';
+  convohtml += '<div class="msg-author">';
+  convohtml += msg.sender;
+  convohtml += '</div>';
+  convohtml += '<div class="msg-content">';
+  convohtml += msg.content;
+  convohtml += '</div>';
+  convohtml += '<div class="msg-timestamp">';
+  convohtml += msg.timestamp;
+  convohtml += '</div>';
+  convohtml += '</div>';
+  convohtml += '</div>';
   convohtml += '</div>';
   return convohtml;
 }
@@ -71,30 +70,33 @@ function renderConvo(title, msg) {
 window.onload = () => {
 
   //Default chatroom is Global
-  $('.chat:contains("global")').addClass('selected')
-  $('#' + getCurrentRoom()).show()
+  $('.chat:contains("global")').addClass('selected');
+  $('#' + getCurrentRoom()).show();
+  $('form.compose .input-container input.input').focus();
 
   // Set the chat title accordingly
-  $('#chatTitle').html(getCurrentRoom())
+  $('#chatTitle').html(getCurrentRoom());
 
   // Holds the messages of the current session
   //var messages = {}
 
-	// Grab a socket instance to interact with the server
-  var socket = io.connect('localhost:3000')
+  // Grab a socket instance to interact with the server
+  /* eslint-disable */
+  var socket = io.connect('localhost:3000');
 
   // When the window is loaded and ready,
   // Join to all the user's rooms
-  var rooms = []
+  var rooms = [];
   for (var chat in chats) {
-    rooms.push(chats[chat].title)
+    rooms.push(chats[chat].title);
   }
-  socket.emit('init', rooms)
+  socket.emit('init', rooms);
+  /* eslint-enable */
 
 
   /**
   * This function first creates the necessary
-  * html for displaying the new chat on the 
+  * html for displaying the new chat on the
   * sidebar of the application. It then creates
   * a valid welcome message object as a preparative
   * measure before pushing the new chatroom to firebase.
@@ -102,6 +104,7 @@ window.onload = () => {
   * emitted to the server, which creates a new chatroom node
   * on Firebase and pushes the room data and welcome message there.
   */
+  /* eslint-disable */
   function createNewChat(name, welcomemsg) {
     var msg = {
       welcome: {
@@ -113,83 +116,103 @@ window.onload = () => {
     var roomdata = {
       title: name,
       messages: msg,
-      public: true,
+      public: false,
       admin: user.uid
     };
+    /* eslint-enable */
 
-    var chathtml = renderChat(name)
+    var chathtml = renderChat(name);
     var convohtml = renderConvo(name, msg.welcome);
 
     $('.chat-list').append(chathtml);
     $('.messages').append(convohtml);
 
-    // TODO: Send the users uid with the roomdata
     socket.emit('newroom', (roomdata));
   }
 
   /**
   * The socket reacts to a 'chatmessage' event.
-  * Then the data from the message is 
+  * Then the data from the message is
   * parsed to the correct format (the same
   * that is used in firebase).
   */
   socket.on('chatmessage', (data) => {
-	  /**
-	  * If the received data package contains
-	  * a message, parse it to a suitable format
-	  * and render it to the screen
-	  */ 
+    /**
+    * If the received data package contains
+    * a message, parse it to a suitable format
+    * and render it to the screen
+    */
     if(data.message) {
       $('#' + data.room).append(
         renderMsgHtml(data)
-	    )
-		  // When a mewssage is appended, scroll automatically down
-      $('#' + data.room).scrollTop($('#' + data.room)[0].scrollHeight)
-      //messages.push(data)
+      );
+      // When a mewssage is appended, scroll automatically down
+      $('#' + data.room).scrollTop($('#' + data.room)[0].scrollHeight);
     } else {
-      console.log('There was a problem: ', data)
+      console.log('There was a problem: ', data);
     }
-  })
+  });
 
 
-	/**
-	 * When send button is clicked,
-	 * emit the message to server
-	 * and clear the input field
-	 */
+  /**
+   * When send button is clicked,
+   * emit the message to server
+   * and clear the input field
+   */
+  /* eslint-disable */
   $('form').submit( (e) => {
-    e.preventDefault()
-    var content = $('.input').val()
+    e.preventDefault();
+    var content = $('#messageinput').val();
     var data = {
-      "message": content,
-      "nick": nick,
-      "sender": user,
-      "room": getCurrentRoom()
-    }
-    socket.emit('chatmessage', data )
-    $('.input').val('')
-  })
+      'message': content,
+      'nick': nick,
+      'sender': user,
+      'room': getCurrentRoom()
+    };
+    socket.emit('chatmessage', data );
+    $('.input').val('');
+  });
+  /* eslint-enable */
 
-	// Allow sending messages with enter
+  // Allow sending messages with enter
   $('.input').keypress( (e) => {
     if (e.which === 13) {
-      $('form').submit()
-      return false
+      $('form').submit();
+      return false;
     }
-  })
+  });
 
   /**
    * Logic regarding the new chat button.
    */
-  $('#newchat').click( (e) => {
+  $('#newchat').click( () => {
     var name = prompt('Please choose a name for the chatroom');
-    var message = 'Welcome to ' + name
+    var message = 'Welcome to ' + name;
     if (name) {
-      createNewChat(name, message)
+      createNewChat(name, message);
     } else {
-      console.log('boo');
+      alert('Chat creation failed');
     }
-  })
+  });
+
+  $('.public-chats').on('click', '.chat#joinChat', (e) => {
+    var selected = $(e.target).text();
+    var welcomemsg = {
+      'sender': 'Admin',
+      'content': 'Welcome to ' + selected,
+      'room': selected
+    };
+    /* eslint-disable */
+    var subsdata = {
+      room: selected,
+      uid: user.uid
+    };
+    /* eslint-enable */
+    socket.emit('subscribe', subsdata);
+    $('.chat-list').append(renderChat(selected));
+    $('.messages').append(renderConvo(selected, welcomemsg));
+
+  });
 
   /**
    * Allows the user to choose a chatroom to join
@@ -197,26 +220,25 @@ window.onload = () => {
    *
    * When a user clicks a chatroom the user is first
    * unsubscribed from the previous chatroom, and is
-   * then subscribed to a new one. Emitting the 
+   * then subscribed to a new one. Emitting the
    * (un)subscribe message to server calls the
-   * corresponding socket.leave/join methods 
+   * corresponding socket.leave/join methods
    * on the server side.
    *
    * When a user clicks the chatroom button, also
    * highlight it and display the corresponding
    * messages.
    */
-  $('.chat-list').on('click', '.chat:not(#newchat)', (e) => {
-    $('.selected').removeClass('selected')
+  $('.chat-list').on('click', '.chat:not(#newchat):not(#joinChat)', (e) => {
+    $('.selected').removeClass('selected');
     if ($(e.target).is('h4')) {
-      $(e.target).parent().parent().addClass('selected')
+      $(e.target).parent().parent().addClass('selected');
     } else {
-      $(e.target).addClass('selected')
+      $(e.target).addClass('selected');
     }
-    $('#chatTitle').html(getCurrentRoom())
-    $('.convo').hide()
-    $('#' + getCurrentRoom()).show()
-  })
-}
+    $('#chatTitle').html(getCurrentRoom());
+    $('.convo').hide();
+    $('#' + getCurrentRoom()).show();
+  });
+};
 
-/* eslint-enable */

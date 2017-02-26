@@ -1,3 +1,12 @@
+.public-chats {
+  background-color: #e5e5e5;
+  overflow-x: hidden;
+  position: fixed;
+  transition: 0.3s;
+  height: 100%;
+  width: 0;
+  z-index: 1; }
+
 .user-settings {
   background-color: #afafaf;
   height: 100%;
@@ -30,11 +39,23 @@
 .chat-list {
   align-self: stretch; }
 
+.search {
+  align-items: center;
+  border-bottom: 1px solid #afafaf;
+  display: -webkit-flex;
+  display: flex;
+  height: 50px;
+  padding: 5px 10px; }
+  .search .compose {
+    width: 100%; }
+    .search .compose .input {
+      width: 100%; }
+
 .chat {
   align-items: center;
   border-bottom: 1px solid #afafaf;
   cursor: pointer;
-  display: --webkit-flex;
+  display: -webkit-flex;
   display: flex;
   height: 50px;
   padding: 5px 10px; }

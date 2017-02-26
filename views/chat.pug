@@ -9,6 +9,7 @@ block content
     var nick = !{JSON.stringify(nickname)}
     var user = !{JSON.stringify(user)}
     var chats = !{JSON.stringify(chats)}
+    var pubs = !{JSON.stringify(pubs)}
   .chats
     header.chat-header
       .left
@@ -24,18 +25,26 @@ block content
         h3 Nickname
         h3= nickname
     .chat-list
+      .search
+        .compose
+          .input-container
+            input.input(placeholder="Search" type='text' value='')#searchfield
+      .public-chats
+        each pub in pubs
+          .chat#joinChat
+            .chat-icon
+            .chat-title
+              h4= pub.title
       .chat#newchat
         .chat-new
           i.fa.fa-plus.fa-fw(aria-hidden="true")#chat-settings
         .chat-title
           h4 Create new
       each chat in chats
-        if chat.public
-          .chat#selectChat
-            .chat-icon
-            .chat-title
-              h4
-                = chat.title
+        .chat#selectChat
+          .chat-icon
+          .chat-title
+            h4= chat.title
   .messages
     header.convo-header
       .left
@@ -58,6 +67,6 @@ block content
     footer.convo-footer
       form.compose
         .input-container
-          input.input(type='text' value='')
+          input.input(type='text' value='')#messageinput
         .send-container
           input(type='submit' value='Send')
