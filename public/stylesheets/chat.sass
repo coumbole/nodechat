@@ -8,11 +8,11 @@ $active-color: #5588ff
 
 .public-chats
   background-color: $med-light-gray
+  display: none
   overflow-x: hidden
   position: fixed
   transition: 0.3s
-  height: 100%
-  width: 0
+  height: inherit
   z-index: 1
 
 .user-settings
@@ -82,11 +82,17 @@ $active-color: #5588ff
   .chat-new
     padding: 0 10px
 
+  .chat-icon
+    padding: 0 10px
+
   .chat-title
-    flex-grow: 6
+    flex-grow: 4
     h4
       margin: 0
       padding: 0
+  
+  .chat-msg-count
+    flex-grow: 1
 
 .right
   cursor: pointer
