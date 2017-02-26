@@ -1,46 +1,32 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
+// Module dependencies.
 var app = require('../app');
 var debug = require('debug')('nodechat:server');
 var http = require('http');
 
 
-/**
- * Get port from environment and store in Express.
-*/
-
+// Get port from environment and store in Express.
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/**
-* Create HTTP server.
-*/
-
+// Create HTTP server.
 var server = http.createServer(app);
 
+// Get firebase instances
 var firebase = require('firebase');
 var db = firebase.database();
 
-/**
-* Set up a socket.io instance
-*/
+// Set up a socket.io instance
 var io = require('socket.io')(server);
 
-/**
-* Listen on provided port, on all network interfaces.
-*/
+// Listen on provided port, on all network interfaces.
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
 
-/**
- * Returns a timestamp string
- */
+// Returns a timestamp string
 function createTimestamp() {
   var d = new Date();
   var h = d.getHours();
@@ -91,6 +77,11 @@ io.on('connection', (socket) => {
    * Client can join different channels using the 
    * subscribe method on the client side. It triggers
    * the socket.join -method on the server side.
+   *
+   * TODO:
+   *  - Fix this so that rooms can actually be left.
+   *    Use the subscribe method below as an example
+   *    of how to retrieve the chatkey correctly.
    */
 
   socket.on('unsubscribe', (data) => {
