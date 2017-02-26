@@ -6,6 +6,15 @@ $white: #fff
 $light-blue: #cfeeee
 $active-color: #5588ff
 
+.public-chats
+  background-color: $med-light-gray
+  overflow-x: hidden
+  position: fixed
+  transition: 0.3s
+  height: 100%
+  width: 0
+  z-index: 1
+
 .user-settings
   background-color: $gray
   height: 100%
@@ -40,11 +49,26 @@ $active-color: #5588ff
 .chat-list
   align-self: stretch
 
+.search
+  align-items: center
+  border-bottom: 1px solid $gray
+  display: -webkit-flex
+  display: flex
+  height: 50px
+  padding: 5px 10px
+
+  .compose
+    width: 100%
+
+    .input
+      width: 100%
+
+
 .chat
   align-items: center
   border-bottom: 1px solid $gray
   cursor: pointer
-  display: --webkit-flex
+  display: -webkit-flex
   display: flex
   height: 50px
   padding: 5px 10px
