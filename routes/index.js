@@ -41,23 +41,35 @@ router.get('/chat/', isAuthenticated, (req, res) => {
 
   var nick = null
   var chats = null
+  var rooms = null
   
   dbref.once('value').then( (snapshot) => {
 
-    // Try to set the nick
+    // Try to set the nick and get user's rooms
     try {
       nick = snapshot.child('users/' + user.uid + '/nickname').val()
+      rooms = snapshot.child('users/' + user.uid + '/rooms').val()
     } catch(e) {
       console.log('error: ' + e)
       console.log('defaulting to anon username')
       nick = 'anon'
+      rooms = {global: 'global'}
     }
 
     // Then fetch chatdata
     chats = snapshot.child('chat').val()
+    var chatrooms = {} 
+
+    for (var chat in chats) {
+      for (var room in rooms) {
+        if (chat === room) {
+          chatrooms[chat] = chats[chat]
+        }
+      }
+    }
 
     res.render('chat', {
-      'chats':    chats,
+      'chats': chatrooms,
       'nickname': nick,
       'user': user
     })

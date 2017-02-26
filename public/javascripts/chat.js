@@ -27,6 +27,46 @@ function getCurrentRoom() {
   return $('.selected .chat-title h4').html()
 }
 
+/**
+ * Renders the necessary html code for a
+ * chatlist button
+ */
+function renderChat(name) {
+  var chathtml = '';
+  chathtml += '<div id="selectChat" class="chat">';
+  chathtml += '<div class="chat-icon"></div>';
+  chathtml += '<div class="chat-title">';
+  chathtml += '<h4>';
+  chathtml += name;
+  chathtml += '</h4>';
+  chathtml += '</div>';
+  chathtml += '</div>';
+  return chathtml;
+}
+
+/**
+ * Renders the necessary html for when a new
+ * chatroom is created.
+ */
+function renderConvo(title, msg) {
+  var convohtml = '';
+  convohtml += '<div style="display: none;" class="convo" id="' + title + '">';
+    convohtml += '<div class="msg-container">';
+      convohtml += '<div class="msg">';
+        convohtml += '<div class="msg-author">';
+          convohtml += msg.sender;
+        convohtml += '</div>';
+        convohtml += '<div class="msg-content">';
+          convohtml += msg.content;
+        convohtml += '</div>';
+        convohtml += '<div class="msg-timestamp">';
+          convohtml += msg.timestamp;
+        convohtml += '</div>'
+      convohtml += '</div>';
+    convohtml += '</div>';
+  convohtml += '</div>';
+  return convohtml;
+}
 
 window.onload = () => {
 
@@ -42,6 +82,50 @@ window.onload = () => {
 
 	// Grab a socket instance to interact with the server
   var socket = io.connect('localhost:3000')
+
+  // When the window is loaded and ready,
+  // Join to all the user's rooms
+  var rooms = []
+  for (var chat in chats) {
+    rooms.push(chats[chat].title)
+  }
+  socket.emit('init', rooms)
+
+
+  /**
+  * This function first creates the necessary
+  * html for displaying the new chat on the 
+  * sidebar of the application. It then creates
+  * a valid welcome message object as a preparative
+  * measure before pushing the new chatroom to firebase.
+  * Finally, a roomdata-object is created, which is then
+  * emitted to the server, which creates a new chatroom node
+  * on Firebase and pushes the room data and welcome message there.
+  */
+  function createNewChat(name, welcomemsg) {
+    var msg = {
+      welcome: {
+        content: welcomemsg,
+        sender: 'Admin',
+        room: name
+      }
+    };
+    var roomdata = {
+      title: name,
+      messages: msg,
+      public: true,
+      admin: user.uid
+    };
+
+    var chathtml = renderChat(name)
+    var convohtml = renderConvo(name, msg.welcome);
+
+    $('.chat-list').append(chathtml);
+    $('.messages').append(convohtml);
+
+    // TODO: Send the users uid with the roomdata
+    socket.emit('newroom', (roomdata));
+  }
 
   /**
   * The socket reacts to a 'chatmessage' event.
@@ -96,12 +180,15 @@ window.onload = () => {
 
   /**
    * Logic regarding the new chat button.
-   *
-   * TODO: 
-   *  - Actually create a new chatroom
    */
   $('#newchat').click( (e) => {
-    alert('create new chat')
+    var name = prompt('Please choose a name for the chatroom');
+    var message = 'Welcome to ' + name
+    if (name) {
+      createNewChat(name, message)
+    } else {
+      console.log('boo');
+    }
   })
 
   /**
@@ -119,22 +206,16 @@ window.onload = () => {
    * highlight it and display the corresponding
    * messages.
    */
-  $('.chat').not('#newchat').click( (e) => {
-
-    //socket.emit('unsubscribe', getCurrentRoom())
-
+  $('.chat-list').on('click', '.chat:not(#newchat)', (e) => {
     $('.selected').removeClass('selected')
-
     if ($(e.target).is('h4')) {
       $(e.target).parent().parent().addClass('selected')
     } else {
       $(e.target).addClass('selected')
     }
-
     $('#chatTitle').html(getCurrentRoom())
     $('.convo').hide()
     $('#' + getCurrentRoom()).show()
-    //socket.emit('subscribe', getCurrentRoom() )
   })
 }
 
