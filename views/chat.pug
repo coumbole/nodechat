@@ -4,6 +4,11 @@ block headscripts
   script(type='text/javascript' src='/socket.io/socket.io.js')
   script(src='https://use.fontawesome.com/f52a816870.js')
 block content
+  script(type='text/javascript' src='/javascripts/settings.js')
+  script. 
+    var nick = !{JSON.stringify(nickname)}
+    var user = !{JSON.stringify(user)}
+    var chats = !{JSON.stringify(chats)}
   .chats
     header.chat-header
       .left
@@ -37,12 +42,7 @@ block content
         h3#chatTitle Messages
       .right
         i.fa.fa-ellipsis-v(aria-hidden="true")
-    script. 
-      var nick = !{JSON.stringify(nickname)}
-      var user = !{JSON.stringify(user)}
-      var chats = !{JSON.stringify(chats)}
     script(type='text/javascript' src='/javascripts/chat.js')
-
     each chat in chats
       - var chatid = chat.title
       .convo(id=chatid style='display:none')
@@ -61,4 +61,3 @@ block content
           input.input(type='text' value='')
         .send-container
           input(type='submit' value='Send')
-  script(type='text/javascript' src='/javascripts/settings.js')

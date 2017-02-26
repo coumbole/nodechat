@@ -59,20 +59,33 @@ function createTimestamp() {
  */
 io.on('connection', (socket) => {
 
-  // By default join all public chatrooms
-  db.ref('chat').on('value', (snapshot) => {
-    snapshot.forEach( (chat) => {
-      var pub = chat.val().public
-      //console.log('Client: ' + socket.client + ' joining room: ' + chat.val().title)
-      if (pub === true) socket.join(chat.val().title, () => {
-        console.log('joining chatroom.')
-        console.log(socket.rooms)
-      })
-    })
+  // Join all own rooms when client is connected
+  socket.on('init', (rooms) => {
+    for (var room in rooms) {
+      if (rooms.hasOwnProperty(room)) {
+        socket.join(rooms[room])
+      }
+    }
   })
 
 
-  /* eslint-enable */
+  /**
+   * if the data parameter is not empty, first create
+   * a new unique identifier for the chatroom Then create
+   * an empty updates object which will be used to push the 
+   * chatroomdata to Firebase. Then push the chatdata to the
+   * updates -object and finally push the data to Firebase.
+   */
+  socket.on('newroom', (data) => {
+    if (data) {
+      socket.join(data.title)
+      var newChatKey = db.ref('chat').push().key
+      var updates = {}
+      updates['/chat/' + newChatKey] = data
+      updates['/users/' + data.admin + '/rooms/' + newChatKey] = data.title
+      firebase.database().ref().update(updates)
+    }
+  })
 
   /**
    * Client can join different channels using the 
