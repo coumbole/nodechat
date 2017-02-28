@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .flex-column
+    .title
+      h2 Register
+    .form-container
+      form(method="POST")
+        ul.flex-outer
+          li
+            label(for="email" id="usrlabel") Email
+            input(name="email" type="text" id="email")
+          
+          li
+            label(for="nick" id="nicklabel") Nickname
+            input(name="nick" type="text=" id="nick")
+
+          li
+            label(for="password" id="passlabel") Password
+            input(name="password" type="password" id="password")
+
+          li
+            input(type="submit" value="Login")

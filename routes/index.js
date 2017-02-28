@@ -134,4 +134,22 @@ router.get('/register', (req, res) => {
   res.render('register');
 });
 
+router.post('/register', (req, res) => {
+  firebase.auth().createUserWithEmailAndPassword(
+    req.body.email, 
+    req.body.password)
+    .then( 
+      u => {
+        var updates = {};
+        updates['users/' + u.uid + '/nickname'] = req.body.nick;
+        updates['users/' + u.uid + '/rooms'] = { 'global': 'global' };
+        firebase.database().ref().update(updates);
+        console.log('Successfully created an account');
+        res.redirect('/login');
+      }, 
+      error => {
+        console.log('Couldn\'t register: ' + error.code + ': ' +  error.message);
+      });
+});
+
 module.exports = router;

@@ -16,7 +16,6 @@ $(window).ready( () => {
    * for chat settings
    */
   $('i.fa-bars').click( (e) => {
-    //alert('target: ' + $(e.target).closest('header').siblings('.settings').html());
     $(e.target).closest('header').siblings('.settings').toggle();
   });
 
@@ -47,7 +46,6 @@ $(window).ready( () => {
       userid: user.uid,
       currentroom: $('.selected').text()
     };
-    alert('currentroom ' + $('.selected').text());
     /* eslint-enable */
 
     socket.emit('updatenick', (data));
