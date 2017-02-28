@@ -69,8 +69,12 @@ function renderConvo(title, msg) {
 
 window.onload = () => {
 
-  //Default chatroom is Global
-  $('.chat:contains("global")').addClass('selected');
+  //Default chatroom is the first one on the list
+  $('.chat-list')
+    .children('.chat')
+    .not('#newchat, #joinChat')
+    .first()
+    .addClass('selected');
   $('#' + getCurrentRoom()).show();
   $('form.compose .input-container input.input').focus();
 

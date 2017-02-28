@@ -4,20 +4,21 @@ $(window).ready( () => {
   var socket = io.connect('localhost:3000');
   /* eslint-enable */
 
-  // WHen the site is loaded, hide the settings
-  // panel and set it's width 
-  $('.settings').hide();
   /**
-   * Open up the user settings panel.
-   * This is mainly used for changing
-   * the nickname.
-   */
+   * When the site is loaded, hide the settings
+   * panels.
+   */ 
+  $('.settings').hide();
 
+  /**
+   * Opens up on of the two settings panels.
+   * One is used for user's settings, other one
+   * for chat settings
+   */
   $('i.fa-bars').click( (e) => {
     //alert('target: ' + $(e.target).closest('header').siblings('.settings').html());
     $(e.target).closest('header').siblings('.settings').toggle();
   });
-
 
   // Close the panel
   $('.closebtn').click( (e) => {
@@ -36,7 +37,11 @@ $(window).ready( () => {
   $('#nickfield').focusout( () => {
     $('#nickfield').attr('readonly', true);
     var newnick = $('#nickfield').val();
+
     /* eslint-disable */
+    // the nick variable is defined in chat.pug
+    nick = newnick;
+
     var data = {
       nick: newnick,
       userid: user.uid,
@@ -44,6 +49,7 @@ $(window).ready( () => {
     };
     alert('currentroom ' + $('.selected').text());
     /* eslint-enable */
+
     socket.emit('updatenick', (data));
   });
 
@@ -56,7 +62,6 @@ $(window).ready( () => {
   $('#searchfield').focusout( () => {
     $('.public-chats').hide();
   });
-
 
   /**
    * When the user types something to the search field,
@@ -71,5 +76,50 @@ $(window).ready( () => {
       $(v).toggle( $(v).text().toLowerCase().indexOf(value) !== -1 );
     });
   });
-});
 
+  /**
+   * When the red leave chat -button is clicked,
+   * delete the room from the chat list, and delete
+   * the message container as well. 
+   *
+   * Then send the unsubsribe event to the server,
+   * which then removes the room from the user's
+   * subscribed rooms list.
+   *
+   * Finally, set another chat as the selected one.
+   */
+  $('#leavechat').click( () => {
+    var currentroom = $('.selected').text();
+
+    /* eslint-disable */
+    var roomdata = {
+      room: currentroom,
+      userid: user.uid,
+      nick: nick
+    };
+    /* eslint-enable */
+
+    // Send the unsubscribe event to server
+    socket.emit('unsubscribe', (roomdata));
+
+    // Remove the chatlist name and message container
+    $('.selected, #' + currentroom).remove();
+
+    // Add selected class to the first chat on the list
+    $('.chat-list')
+      .children('.chat')
+      .not('#newchat, #joinChat')
+      .first()
+      .addClass('selected');
+
+    // Get the new room
+    var theRoom = $('.selected .chat-title h4').text();
+
+    // Show the messages of the new chat
+    $('#chatTitle').html(theRoom);
+    $('.convo').hide();
+    $('#' + theRoom).show();
+
+    $('#chat-nav').hide();
+  });
+});

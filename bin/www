@@ -96,14 +96,26 @@ io.on('connection', (socket) => {
    */
 
   socket.on('unsubscribe', (data) => {
-    var chatKey = null;
     var updates = {};
-    if (chatKey) {
-      updates['/users/' + data.uid + '/rooms/' + chatKey] = null;
-      socket.leave(data.room);
-    } else {
-      console.log('couldn\'t leave room');
-    }
+    db.ref('users/' + data.userid + '/rooms')
+      .once('value')
+      .then( (snapshot) => {
+        snapshot.forEach( (room) => {
+          if (room.val()=== data.room) {
+            updates[
+              '/users/' 
+              + data.userid
+              + '/rooms/' 
+              + room.key] = null;
+            
+            db.ref().update(updates);
+
+            socket.leave(data.room);
+          }
+        });
+      }), (error) => {
+        console.log('Couldn\'t leave room: ' + error);
+      };
   });
 
   /**
