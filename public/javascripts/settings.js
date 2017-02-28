@@ -4,29 +4,35 @@ $(window).ready( () => {
   var socket = io.connect('localhost:3000');
   /* eslint-enable */
 
-  $('#user-nav').hide();
-  $('#user-nav').css('width', () => {
-    return $('.chats').css('width');
-  });
+  // WHen the site is loaded, hide the settings
+  // panel and set it's width 
+  $('.settings').hide();
   /**
    * Open up the user settings panel.
    * This is mainly used for changing
    * the nickname.
    */
-  $('#user-settings').click( () => {
-    $('#user-nav').toggle();
+
+  $('i.fa-bars').click( (e) => {
+    //alert('target: ' + $(e.target).closest('header').siblings('.settings').html());
+    $(e.target).closest('header').siblings('.settings').toggle();
   });
+
 
   // Close the panel
-  $('#closebtn').click( () => {
-    $('#user-nav').hide();
+  $('.closebtn').click( (e) => {
+    $(e.target).closest('.settings').hide();
   });
 
+  // Enable editing of the nickname field
   $('#editnick').click( () => {
     $('#nickfield').attr('readonly', false);
     $('#nickfield').focus();
   });
   
+  // When the client's focus is out of the
+  // nickname field, send the data to server
+  // and change the nickname
   $('#nickfield').focusout( () => {
     $('#nickfield').attr('readonly', true);
     var newnick = $('#nickfield').val();

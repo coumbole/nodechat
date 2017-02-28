@@ -38,53 +38,48 @@ $active-color: #5588ff
       margin: 0
       padding: 5px 10px
 
-  .user-settings
-    background-color: $super-light-gray
-    border: 1px solid $gray
+.btn-red
+  background-color: red
+  color: white
+
+
+.settings
+  background-color: $super-light-gray
+  border: 1px solid $gray
+  display: inline-flex
+  flex-direction: column
+  position: absolute
+  width: inherit
+  z-index: 1
+
+  .settings-header
+    background-color: white
+    align-items: center
+    display: -webkit-flex
+    display: flex
+    justify-content: space-between
+    padding: 10px 10px
+
+    h3
+      margin: 0 auto
+  
+  .spacer
+    min-height: 30px
+
+  .settings-body
+    background-color: white
+    display: -webkit-flex
     display: flex
     flex-direction: column
-    height: 100%
-    overflow-x: hidden
-    position: fixed
-    transition: 0.5s
-    width: inherit
-    z-index: 1
+    padding: 5px 10px
 
-    .user-settings-header
-      align-items: center
-      display: -webkit-flex
-      display: flex
-      justify-content: space-between
-      padding: 10px 10px
-
-      h3
-        margin: 0 auto
+    h5
+      margin: 5px 0 0
     
-    .spacer
-      min-height: 30px
-
-    .user-settings-body
-      background-color: white
+    .input-container
       display: -webkit-flex
       display: flex
-      flex-direction: column
-      padding: 5px 10px
 
-      h5
-        margin: 5px 0 0
-      
-      .input-container
-        display: -webkit-flex
-        display: flex
-
-        .input
-          flex: 5 1 auto
-        
-        i
-          flex: 1 1 auto
-
-          &:hover
-            cursor: pointer
 
   .chat-list
     align-self: stretch

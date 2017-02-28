@@ -16,14 +16,14 @@ block content
         h3 Chats
       .right
         i.fa.fa-bars(aria-hidden="true")#user-settings
-    .user-settings#user-nav
-      .user-settings-header
+    .settings#user-nav
+      .settings-header
         .left
           h3 Settings
         .right
-          a.closebtn#closebtn &times;
+          a.closebtn#closepanel &times;
       .spacer
-      .user-settings-body
+      .settings-body
         h5 Nickname
         .input-container
           input.input(readonly='true' type='text' value='' + nickname)#nickfield
@@ -55,8 +55,18 @@ block content
       .left
         h3#chatTitle Messages
       .right
-        i.fa.fa-bars(aria-hidden="true")
+        i.fa.fa-bars(aria-hidden="true")#chat-settings
     script(type='text/javascript' src='/javascripts/chat.js')
+    .settings#chat-nav
+      .settings-header
+        .left
+          h3 Settings
+        .right
+          a.closebtn#closesettings &times;
+      .spacer
+      .settings-body
+        h5 Leave chat
+        button.btn.btn-red Leave
     each chat in chats
       - var chatid = chat.title
       .convo(id=chatid style='display:none')

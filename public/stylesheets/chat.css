@@ -24,56 +24,53 @@
     .chats .chat-header h3 {
       margin: 0;
       padding: 5px 10px; }
-  .chats .user-settings {
-    background-color: #fafafa;
-    border: 1px solid #afafaf;
+
+.btn-red {
+  background-color: red;
+  color: white; }
+
+.settings {
+  background-color: #fafafa;
+  border: 1px solid #afafaf;
+  display: inline-flex;
+  flex-direction: column;
+  position: absolute;
+  width: inherit;
+  z-index: 1; }
+  .settings .settings-header {
+    background-color: white;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px; }
+    .settings .settings-header h3 {
+      margin: 0 auto; }
+  .settings .spacer {
+    min-height: 30px; }
+  .settings .settings-body {
+    background-color: white;
+    display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow-x: hidden;
-    position: fixed;
-    transition: 0.5s;
-    width: inherit;
-    z-index: 1; }
-    .chats .user-settings .user-settings-header {
-      align-items: center;
+    padding: 5px 10px; }
+    .settings .settings-body h5 {
+      margin: 5px 0 0; }
+    .settings .settings-body .input-container {
       display: -webkit-flex;
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 10px; }
-      .chats .user-settings .user-settings-header h3 {
-        margin: 0 auto; }
-    .chats .user-settings .spacer {
-      min-height: 30px; }
-    .chats .user-settings .user-settings-body {
-      background-color: white;
-      display: -webkit-flex;
-      display: flex;
-      flex-direction: column;
-      padding: 5px 10px; }
-      .chats .user-settings .user-settings-body h5 {
-        margin: 5px 0 0; }
-      .chats .user-settings .user-settings-body .input-container {
-        display: -webkit-flex;
-        display: flex; }
-        .chats .user-settings .user-settings-body .input-container .input {
-          flex: 5 1 auto; }
-        .chats .user-settings .user-settings-body .input-container i {
-          flex: 1 1 auto; }
-          .chats .user-settings .user-settings-body .input-container i:hover {
-            cursor: pointer; }
-  .chats .chat-list {
+      display: flex; }
+  .settings .chat-list {
     align-self: stretch; }
-    .chats .chat-list .search {
+    .settings .chat-list .search {
       align-items: center;
       border-bottom: 1px solid #afafaf;
       display: -webkit-flex;
       display: flex;
       height: 50px;
       padding: 5px 10px; }
-      .chats .chat-list .search .compose {
+      .settings .chat-list .search .compose {
         width: 100%; }
-        .chats .chat-list .search .compose .input {
+        .settings .chat-list .search .compose .input {
           width: 100%; }
 
 .chat {
