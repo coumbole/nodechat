@@ -134,6 +134,7 @@ window.onload = () => {
   * that is used in firebase).
   */
   socket.on('chatmessage', (data) => {
+    alert('Got a message!');
     /**
     * If the received data package contains
     * a message, parse it to a suitable format

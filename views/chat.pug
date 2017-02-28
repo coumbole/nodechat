@@ -4,31 +4,34 @@ block headscripts
   script(type='text/javascript' src='/socket.io/socket.io.js')
   script(src='https://use.fontawesome.com/f52a816870.js')
 block content
-  script(type='text/javascript' src='/javascripts/settings.js')
   script. 
     var nick = !{JSON.stringify(nickname)}
     var user = !{JSON.stringify(user)}
     var chats = !{JSON.stringify(chats)}
     var pubs = !{JSON.stringify(pubs)}
+  script(type='text/javascript' src='/javascripts/settings.js')
   .chats
     header.chat-header
       .left
         h3 Chats
       .right
-        i.fa.fa-ellipsis-v(aria-hidden="true")#user-settings
+        i.fa.fa-bars(aria-hidden="true")#user-settings
     .user-settings#user-nav
       .user-settings-header
-        h3 Settings
+        .left
+          h3 Settings
         .right
           a.closebtn#closebtn &times;
+      .spacer
       .user-settings-body
-        h3 Nickname
-        h3= nickname
+        h5 Nickname
+        .input-container
+          input.input(readonly='true' type='text' value='' + nickname)#nickfield
+          i.fa.fa-pencil.fa-fw(aria-hidden="true")#editnick
     .chat-list
       .search
-        .compose
-          .input-container
-            input.input(placeholder="Search public chats" type='text' value='')#searchfield
+        .input-container
+          input.input(placeholder="Search public chats" type='text')#searchfield
       table.public-chats
         each pub in pubs
           tr.chat#joinChat
@@ -52,7 +55,7 @@ block content
       .left
         h3#chatTitle Messages
       .right
-        i.fa.fa-ellipsis-v(aria-hidden="true")
+        i.fa.fa-bars(aria-hidden="true")
     script(type='text/javascript' src='/javascripts/chat.js')
     each chat in chats
       - var chatid = chat.title

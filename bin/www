@@ -74,6 +74,17 @@ io.on('connection', (socket) => {
   });
 
   /**
+   * When a user sends the updatenick event from the client,
+   * 
+   */
+  socket.on('updatenick', (data) => {
+    var updates = {};
+    updates['/users/' + data.userid + '/nickname'] = data.nick;
+    firebase.database().ref().update(updates);
+  });
+
+
+  /**
    * Client can join different channels using the 
    * subscribe method on the client side. It triggers
    * the socket.join -method on the server side.

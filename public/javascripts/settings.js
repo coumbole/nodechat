@@ -1,19 +1,44 @@
-$(document).ready( () => {
+$(window).ready( () => {
+
+  /* eslint-disable */
+  var socket = io.connect('localhost:3000');
+  /* eslint-enable */
+
+  $('#user-nav').hide();
+  $('#user-nav').css('width', () => {
+    return $('.chats').css('width');
+  });
   /**
    * Open up the user settings panel.
-   *
    * This is mainly used for changing
    * the nickname.
    */
   $('#user-settings').click( () => {
-    $('#user-nav').css('width', () => {
-      return $('.chats').css('width');
-    });
+    $('#user-nav').toggle();
   });
 
   // Close the panel
   $('#closebtn').click( () => {
-    $('#user-nav').css('width', '0');
+    $('#user-nav').hide();
+  });
+
+  $('#editnick').click( () => {
+    $('#nickfield').attr('readonly', false);
+    $('#nickfield').focus();
+  });
+  
+  $('#nickfield').focusout( () => {
+    $('#nickfield').attr('readonly', true);
+    var newnick = $('#nickfield').val();
+    /* eslint-disable */
+    var data = {
+      nick: newnick,
+      userid: user.uid,
+      currentroom: $('.selected').text()
+    };
+    alert('currentroom ' + $('.selected').text());
+    /* eslint-enable */
+    socket.emit('updatenick', (data));
   });
 
   // Show the search panel when input field is focused

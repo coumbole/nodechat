@@ -7,16 +7,6 @@
   height: inherit;
   z-index: 1; }
 
-.user-settings {
-  background-color: #afafaf;
-  height: 100%;
-  overflow-x: hidden;
-  padding-top: 50px;
-  position: fixed;
-  transition: 0.5s;
-  width: 0;
-  z-index: 1; }
-
 .chats {
   border-right: 1px solid #afafaf;
   display: -webkit-flex;
@@ -25,31 +15,66 @@
   transition: margin-left 0.5s;
   width: 30%;
   height: 100%; }
-
-.chat-header {
-  align-items: center;
-  background-color: #e5e5e5;
-  display: flex;
-  height: 40px;
-  justify-content: space-between; }
-  .chat-header h3 {
-    margin: 0;
-    padding: 5px 10px; }
-
-.chat-list {
-  align-self: stretch; }
-
-.search {
-  align-items: center;
-  border-bottom: 1px solid #afafaf;
-  display: -webkit-flex;
-  display: flex;
-  height: 50px;
-  padding: 5px 10px; }
-  .search .compose {
-    width: 100%; }
-    .search .compose .input {
-      width: 100%; }
+  .chats .chat-header {
+    align-items: center;
+    background-color: #e5e5e5;
+    display: flex;
+    height: 40px;
+    justify-content: space-between; }
+    .chats .chat-header h3 {
+      margin: 0;
+      padding: 5px 10px; }
+  .chats .user-settings {
+    background-color: #fafafa;
+    border: 1px solid #afafaf;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-x: hidden;
+    position: fixed;
+    transition: 0.5s;
+    width: inherit;
+    z-index: 1; }
+    .chats .user-settings .user-settings-header {
+      align-items: center;
+      display: -webkit-flex;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 10px; }
+      .chats .user-settings .user-settings-header h3 {
+        margin: 0 auto; }
+    .chats .user-settings .spacer {
+      min-height: 30px; }
+    .chats .user-settings .user-settings-body {
+      background-color: white;
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: column;
+      padding: 5px 10px; }
+      .chats .user-settings .user-settings-body h5 {
+        margin: 5px 0 0; }
+      .chats .user-settings .user-settings-body .input-container {
+        display: -webkit-flex;
+        display: flex; }
+        .chats .user-settings .user-settings-body .input-container .input {
+          flex: 5 1 auto; }
+        .chats .user-settings .user-settings-body .input-container i {
+          flex: 1 1 auto; }
+          .chats .user-settings .user-settings-body .input-container i:hover {
+            cursor: pointer; }
+  .chats .chat-list {
+    align-self: stretch; }
+    .chats .chat-list .search {
+      align-items: center;
+      border-bottom: 1px solid #afafaf;
+      display: -webkit-flex;
+      display: flex;
+      height: 50px;
+      padding: 5px 10px; }
+      .chats .chat-list .search .compose {
+        width: 100%; }
+        .chats .chat-list .search .compose .input {
+          width: 100%; }
 
 .chat {
   align-items: center;
@@ -148,39 +173,41 @@
   height: 60px;
   width: 100%;
   position: relative; }
-  .convo-footer .compose {
-    align-items: center;
-    background-color: #e5e5e5;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-    padding: 12px 20px;
-    position: relative; }
-    .convo-footer .compose .input-container {
-      background-color: #fff;
-      background-clip: padding-box;
-      border-color: #fff;
-      border-radius: 3px;
-      border-style: solid;
-      border-width: 1px;
-      flex: 1 1 auto;
-      min-height: 20px;
-      min-width: 0;
-      padding: 7px 12px;
-      width: 100%; }
-      .convo-footer .compose .input-container .input {
-        background-color: #fff;
-        border: 0;
-        -moz-user-select: text;
-        font-size: 15px;
-        max-height: 100px;
-        min-height: 20px;
-        outline: medium none;
-        overflow-y: auto;
-        overflow-wrap: break-word;
-        width: 100%; }
-    .convo-footer .compose .send-container {
-      padding-left: 15px; }
+
+.compose {
+  align-items: center;
+  background-color: #e5e5e5;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  padding: 12px 20px;
+  position: relative; }
+
+.input-container {
+  background-color: #fff;
+  background-clip: padding-box;
+  border-color: #fff;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  flex: 1 1 auto;
+  min-height: 20px;
+  min-width: 0;
+  padding: 7px 12px;
+  width: 100%; }
+  .input-container .input {
+    background-color: #fff;
+    border: 0;
+    -moz-user-select: text;
+    font-size: 15px;
+    max-height: 100px;
+    min-height: 20px;
+    outline: medium none;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    width: 100%; }
+  .input-container .send-container {
+    padding-left: 15px; }
 
 /*# sourceMappingURL=chat.css.map */
