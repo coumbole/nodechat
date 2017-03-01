@@ -6,28 +6,46 @@ html {
   background-color: #002b36;
   color: #839496; }
 
+h1, h2, h3, h4 {
+  font-weight: 300; }
+
+p {
+  line-height: 1.4rem; }
+
+a {
+  text-decoration: none;
+  color: #eee8d5;
+  text-align: center; }
+
+input {
+  background-color: #93a1a1;
+  border-color: #586e75;
+  color: #002b36; }
+
 .button {
-  background-color: #073642;
-  color: #839496;
-  padding: 10px 20px;
-  text-decoration: none; }
+  background-color: #586e75;
+  border: 0;
+  color: #eee8d5;
+  margin: 0 auto;
+  max-width: 100px;
+  padding: 10px 20px; }
 
 .container {
   align-items: flex-start;
   display: -webkit-flex;
   display: flex;
   height: 95%;
-  min-height: 250px;
   -webkit-justify-content: center;
   justify-content: center;
   margin: 0 auto;
   margin-bottom: 20px;
+  min-height: 250px;
   position: absolute;
+  width: 70%;
   top: 0;
-  bottom: 0;
-  left: 0;
   right: 0;
-  width: 70%; }
+  bottom: 0;
+  left: 0; }
   .container#chat {
     border: 1px solid #586e75; }
 
@@ -37,39 +55,14 @@ html {
   display: -webkit-flex;
   display: flex;
   flex-direction: column;
-  margin: auto;
+  margin: 0 auto;
   max-width: 1200px;
   min-width: 300px;
   padding: 30px 30px; }
 
-.flex-column {
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
+.description {
   max-width: 600px;
-  width: 100%; }
-  .flex-column h2 {
-    text-align: center; }
-  .flex-column a {
-    text-align: center; }
-
-.login {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-justify-content: space-around;
-  justify-content: space-around; }
-
-.register {
-  display: -webkit-flex;
-  display: flex; }
-
-.title {
-  padding: 50px 0;
-  margin: auto; }
-  .title h2 {
-    text-align: center; }
+  text-align: center; }
 
 .form-container {
   margin: 0 auto;
@@ -82,9 +75,9 @@ html {
   max-width: 600px;
   padding: 0; }
   .flex-outer li {
+    align-items: center;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center; }
+    flex-wrap: wrap; }
 
 .flex-outer > li:not(:last-child) {
   margin-bottom: 20px; }
@@ -95,5 +88,32 @@ html {
 
 .flex-outer > li > label + * {
   flex: 1 0 120px; }
+
+.flex-column {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
+  width: 100%; }
+  .flex-column h2 {
+    text-align: center; }
+
+.login {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around; }
+
+.loginsubmit {
+  margin: 0 auto; }
+
+.title {
+  padding: 30px 0 20px;
+  margin: auto; }
+  .title h2 {
+    text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

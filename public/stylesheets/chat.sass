@@ -1,3 +1,5 @@
+// Solarized color scheme
+
 $base03:    #002b36
 $base02:    #073642
 $base01:    #586e75
@@ -15,100 +17,11 @@ $blue:      #268bd2
 $cyan:      #2aa198
 $green:     #859900
 
-
-.chats
-  background-color: $base03
-  border-right: 1px solid $base01
-  display: -webkit-flex 
-  display: flex
-  flex-direction: column
-  transition: margin-left 0.5s
-  width: 30%
-  height: 100%
-
-
-  .chat-header
-    align-items: center
-    background-color: $base03
-    display: flex
-    height: 40px
-    justify-content: space-between
-    position: relative
-
-    h3
-      margin: 0
-      padding: 5px 10px
+// General
 
 .btn-red
   background-color: $red
   color: $base3
-
-
-.settings
-  background-color: $base03
-  border: 1px solid $base02
-  display: inline-flex
-  flex-direction: column
-  position: absolute
-  width: inherit
-  z-index: 1
-
-  .settings-header
-    background-color: $base02
-    align-items: center
-    display: -webkit-flex
-    display: flex
-    justify-content: space-between
-    padding: 10px 10px
-
-    h3
-      margin: 0 auto
-  
-  .spacer
-    min-height: 30px
-
-  .settings-body
-    background-color: $base03
-    display: -webkit-flex
-    display: flex
-    flex-direction: column
-    padding: 5px 10px
-
-    h5
-      margin: 5px 0 0
-    
-    .input-container
-      display: -webkit-flex
-      display: flex
-
-
-.chat-list
-  align-self: stretch
-
-  .search
-    align-items: center
-    border-bottom: 1px solid $base02
-    display: -webkit-flex
-    display: flex
-    height: 50px
-    padding: 5px 10px
-
-    .compose
-      width: 100%
-
-      .input
-        width: 100%
-
-  .public-chats
-    background-color: $base01
-    display: none
-    overflow-x: hidden
-    position: relative
-    transition: 0.3s
-    height: inherit
-    width: 100%
-    z-index: 1
-
 
 .chat
   align-items: center
@@ -140,24 +53,74 @@ $green:     #859900
   .chat-msg-count
     flex-grow: 1
 
-.right
-  cursor: pointer
-  font-size: 1.3em
-  margin-right: 1em
-  opacity: 0.4
-
-.messages
+.chats
   background-color: $base03
+  border-right: 1px solid $base01
   display: -webkit-flex 
   display: flex
-  height: 100%
   flex-direction: column
-  width: 70%
+  transition: margin-left 0.5s
+  width: 30%
+  height: 100%
 
+
+  .chat-header
+    align-items: center
+    background-color: $base03
+    border-bottom: 1px solid $base01
+    display: flex
+    height: 40px
+    justify-content: space-between
+    position: relative
+
+    h3
+      margin: 0
+      padding: 5px 10px
+
+.chat-list
+  align-self: stretch
+
+  .search
+    align-items: center
+    border-bottom: 1px solid $base02
+    display: -webkit-flex
+    display: flex
+    height: 50px
+    padding: 5px 10px
+
+    .compose
+      width: 100%
+
+      .input
+        width: 100%
+
+  .public-chats
+    background-color: $base02
+    display: none
+    overflow-x: hidden
+    position: relative
+    transition: 0.3s
+    height: inherit
+    width: 100%
+    z-index: 1
+
+    .chat:hover
+      background-color: $base03
+
+.compose
+  align-items: center
+  background-color: $base03
+  display: flex
+  flex-direction: row
+  width: 100%
+  height: 100%
+  padding: 12px 20px
+  position: relative
 
 .convo-header
   align-items: center
   background-color: $base03
+  border-bottom: 1px solid $base01
   display: flex
   flex: 0 0 auto
   height: 40px
@@ -170,8 +133,6 @@ $green:     #859900
   h3
     margin: 0
     padding: 5px 10px
-
-
 
 .convo
   background-color: $base03
@@ -213,25 +174,15 @@ $green:     #859900
         flex-grow: 1
         font-size: 0.6em
       
-  
 .convo-footer
   align-items: center
+  border-top: 1px solid $base01
   display: -webkit-flex
   display: flex
   flex: 0 0 auto
   order: 3
   height: 60px
   width: 100%
-  position: relative
-  
-.compose
-  align-items: center
-  background-color: $base03
-  display: flex
-  flex-direction: row
-  width: 100%
-  height: 100%
-  padding: 12px 20px
   position: relative
 
 .input-container
@@ -260,6 +211,19 @@ $green:     #859900
     overflow-wrap: break-word
     width: 100%
 
+.messages
+  background-color: $base03
+  display: -webkit-flex 
+  display: flex
+  height: 100%
+  flex-direction: column
+  width: 70%
+
+.right
+  cursor: pointer
+  font-size: 1.3em
+  margin-right: 1em
+  opacity: 0.4
 
 .send-container
   margin-left: 15px
@@ -271,3 +235,43 @@ $green:     #859900
     i
       color: $base0
       font-size: 1.5rem
+
+.settings
+  background-color: $base03
+  border-bottom: 1px solid $base01
+  display: inline-flex
+  flex-direction: column
+  position: absolute
+  width: inherit
+  z-index: 1
+
+  .settings-header
+    background-color: $base03
+    border-bottom: 1px solid $base01
+    align-items: center
+    display: -webkit-flex
+    display: flex
+    height: 40px
+    justify-content: space-between
+    padding: 10px 10px
+
+    h3
+      margin: 0 auto
+  
+  .spacer
+    background-color: $base02
+    min-height: 30px
+
+  .settings-body
+    background-color: $base02
+    display: -webkit-flex
+    display: flex
+    flex-direction: column
+    padding: 5px 10px
+
+    h5
+      margin: 5px 0 0
+    
+    .input-container
+      display: -webkit-flex
+      display: flex

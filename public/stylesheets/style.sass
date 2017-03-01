@@ -1,3 +1,5 @@
+// Solarized color scheme
+
 $base03:    #002b36
 $base02:    #073642
 $base01:    #586e75
@@ -15,6 +17,8 @@ $blue:      #268bd2
 $cyan:      #2aa198
 $green:     #859900
 
+// General
+
 *
   -moz-box-sizing: border-box
   box-sizing: border-box
@@ -23,28 +27,47 @@ html
   background-color: $base03
   color: $base0
 
-.button
-  background-color: $base02
-  color: $base0
-  padding: 10px 20px
+h1, h2, h3, h4
+  font-weight: 300
+
+p
+  line-height: 1.4rem
+
+a
   text-decoration: none
+  color: $base2
+  text-align: center
+
+input
+  background-color: $base1
+  border-color: $base01
+  color: $base03
+
+.button
+  background-color: $base01
+  border: 0
+  color: $base2
+  margin: 0 auto
+  max-width: 100px
+  padding: 10px 20px
 
 .container
   align-items: flex-start
   display: -webkit-flex
   display: flex
   height: 95%
-  min-height: 250px
   -webkit-justify-content: center
   justify-content: center
   margin: 0 auto
   margin-bottom: 20px
+  min-height: 250px
   position: absolute
+  width: 70%
+
   top: 0
+  right: 0
   bottom: 0
   left: 0
-  right: 0
-  width: 70%
 
   &#chat
     border: 1px solid $base01
@@ -55,42 +78,14 @@ html
   display: -webkit-flex
   display: flex
   flex-direction: column
-  margin: auto
+  margin: 0 auto
   max-width: 1200px
   min-width: 300px
   padding: 30px 30px
 
-.flex-column
-  display: -webkit-flex
-  display: flex
-  flex-direction: column
-  justify-content: center
-  margin: auto
+.description
   max-width: 600px
-  width: 100%
-
-  h2
-    text-align: center
-
-  a
-    text-align: center
-
-.login
-  display: -webkit-flex
-  display: flex
-  -webkit-justify-content: space-around
-  justify-content:         space-around
-
-.register
-  display: -webkit-flex
-  display: flex
-
-.title
-  padding: 50px 0
-  margin: auto
-
-  h2
-    text-align: center
+  text-align: center
 
 .form-container
   margin: 0 auto
@@ -104,10 +99,9 @@ html
   padding: 0
 
   li
+    align-items: center
     display: flex
     flex-wrap: wrap
-    align-items: center
-
 
 .flex-outer > li:not(:last-child)
   margin-bottom: 20px
@@ -119,4 +113,32 @@ html
 .flex-outer > li > label + *
   flex: 1 0 120px
 
+.flex-column
+  display: -webkit-flex
+  display: flex
+  flex-direction: column
+  justify-content: center
+  margin: 0 auto
+  max-width: 600px
+  text-align: center
+  width: 100%
+
+  h2
+    text-align: center
+
+.login
+  display: -webkit-flex
+  display: flex
+  -webkit-justify-content: space-around
+  justify-content:         space-around
+
+.loginsubmit
+  margin: 0 auto
+
+.title
+  padding: 30px 0 20px
+  margin: auto
+
+  h2
+    text-align: center
 

@@ -1,17 +1,37 @@
 extends layout
 
 block content
-	.content
-		.title
-			h1 Welcome to Nodechat
+  .content
+    .title
+      h1 Welcome to Nodechat
 
-		if user == null
-			.flex-column
-				h2 To use the service, please sign up or login
-				.login
-					a(href="/login/") Log in
-					a(href="/register/") Sign up
-		else
-			.flex-column
-					h2 Let's start chatting!
-					a(href="/chat/") Chat
+    article.description
+      h2 What's this?
+      p. 
+        This is a web based chat client, created by Ville Kumpulainen
+        as a study of NodeJS and websockets. It uses Firebase realtime
+        database to store user data and save e.g. users' nickname and
+        the chatrooms they are subscribed to. It's a realtime chat,
+        so the messages themselves are not saved or stored in anyway.
+        Messages are only received, when the user is actually present
+        in the chatroom.
+
+      h2 What can I do with it?
+      p.
+        Whatever you want. It's free and open source, 
+        licensed under the MIT license. The source code lives in
+        #[a(href='http://www.github.com/coumbole/nodechat') Github],
+        in case you want to take a peek at it.
+
+    if !user
+      .flex-column
+        h2 To use the service, please sign up or login
+        .login
+          a(href="/login/").button Log in
+          a(href="/register/").button Sign up
+        p.
+          Registration is required in order to store users' data.
+    else
+      .flex-column
+          h2 Let's start chatting!
+          a(href="/chat/").button Chat
