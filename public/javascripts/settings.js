@@ -1,7 +1,7 @@
 $(window).ready( () => {
 
   /* eslint-disable */
-  var socket = io.connect('localhost:3000');
+  var socket = io.connect();
   /* eslint-enable */
 
   /**

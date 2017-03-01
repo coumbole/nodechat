@@ -85,7 +85,7 @@ window.onload = () => {
 
   // Grab a socket instance to interact with the server
   /* eslint-disable */
-  var socket = io.connect('localhost:3000');
+  var socket = io.connect();
 
   // When the window is loaded and ready,
   // Join to all the user's rooms

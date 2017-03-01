@@ -9,6 +9,7 @@ var http = require('http');
 // Get port from environment and store in Express.
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+console.log('Port is: ' + port);
 
 // Create HTTP server.
 var server = http.createServer(app);
@@ -17,14 +18,14 @@ var server = http.createServer(app);
 var firebase = require('firebase');
 var db = firebase.database();
 
-// Set up a socket.io instance
-var io = require('socket.io')(server);
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// Set up a socket.io instance
+var io = require('socket.io').listen(server);
 
 // Returns a timestamp string
 function createTimestamp() {
