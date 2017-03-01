@@ -1,24 +1,24 @@
-$black: #000
-$super-light-gray: #fafafa
-$med-light-gray: #e5e5e5
-$gray: #afafaf
-$white: #fff
-$light-blue: #cfeeee
-$active-color: #5588ff
-
-.public-chats
-  background-color: $med-light-gray
-  display: none
-  overflow-x: hidden
-  position: fixed
-  transition: 0.3s
-  height: inherit
-  z-index: 1
-
+$base03:    #002b36
+$base02:    #073642
+$base01:    #586e75
+$base00:    #657b83
+$base0:     #839496
+$base1:     #93a1a1
+$base2:     #eee8d5
+$base3:     #fdf6e3
+$yellow:    #b58900
+$orange:    #cb4b16
+$red:       #dc322f
+$magenta:   #d33682
+$violet:    #6c71c4
+$blue:      #268bd2
+$cyan:      #2aa198
+$green:     #859900
 
 
 .chats
-  border-right: 1px solid $gray
+  background-color: $base03
+  border-right: 1px solid $base01
   display: -webkit-flex 
   display: flex
   flex-direction: column
@@ -29,23 +29,24 @@ $active-color: #5588ff
 
   .chat-header
     align-items: center
-    background-color: $med-light-gray
+    background-color: $base03
     display: flex
     height: 40px
     justify-content: space-between
+    position: relative
 
     h3
       margin: 0
       padding: 5px 10px
 
 .btn-red
-  background-color: red
-  color: white
+  background-color: $red
+  color: $base3
 
 
 .settings
-  background-color: $super-light-gray
-  border: 1px solid $gray
+  background-color: $base03
+  border: 1px solid $base02
   display: inline-flex
   flex-direction: column
   position: absolute
@@ -53,7 +54,7 @@ $active-color: #5588ff
   z-index: 1
 
   .settings-header
-    background-color: white
+    background-color: $base02
     align-items: center
     display: -webkit-flex
     display: flex
@@ -67,7 +68,7 @@ $active-color: #5588ff
     min-height: 30px
 
   .settings-body
-    background-color: white
+    background-color: $base03
     display: -webkit-flex
     display: flex
     flex-direction: column
@@ -81,27 +82,37 @@ $active-color: #5588ff
       display: flex
 
 
-  .chat-list
-    align-self: stretch
+.chat-list
+  align-self: stretch
 
-    .search
-      align-items: center
-      border-bottom: 1px solid $gray
-      display: -webkit-flex
-      display: flex
-      height: 50px
-      padding: 5px 10px
+  .search
+    align-items: center
+    border-bottom: 1px solid $base02
+    display: -webkit-flex
+    display: flex
+    height: 50px
+    padding: 5px 10px
 
-      .compose
+    .compose
+      width: 100%
+
+      .input
         width: 100%
 
-        .input
-          width: 100%
+  .public-chats
+    background-color: $base01
+    display: none
+    overflow-x: hidden
+    position: relative
+    transition: 0.3s
+    height: inherit
+    width: 100%
+    z-index: 1
 
 
 .chat
   align-items: center
-  border-bottom: 1px solid $gray
+  border-bottom: 1px solid $base02
   cursor: pointer
   display: -webkit-flex
   display: flex
@@ -109,10 +120,10 @@ $active-color: #5588ff
   padding: 5px 10px
 
   &:hover
-    background-color: $med-light-gray
+    background-color: $base02
 
   &.selected
-    background-color: $med-light-gray
+    background-color: $base02
 
   .chat-new
     padding: 0 10px
@@ -136,7 +147,7 @@ $active-color: #5588ff
   opacity: 0.4
 
 .messages
-  background-color: $super-light-gray
+  background-color: $base03
   display: -webkit-flex 
   display: flex
   height: 100%
@@ -146,7 +157,7 @@ $active-color: #5588ff
 
 .convo-header
   align-items: center
-  background-color: $med-light-gray
+  background-color: $base03
   display: flex
   flex: 0 0 auto
   height: 40px
@@ -163,7 +174,7 @@ $active-color: #5588ff
 
 
 .convo
-  background-color: $light-blue
+  background-color: $base03
   flex: 1 1 0
   order: 2
   overflow-x: hidden
@@ -178,9 +189,9 @@ $active-color: #5588ff
     width: 100%
 
     .msg
-      background-color: $white
+      background-color: $base02
       border-radius: 5px
-      border-color: $super-light-gray
+      border-color: $base01
       display: -webkit-flex
       display: flex
       flex-direction: column
@@ -199,7 +210,6 @@ $active-color: #5588ff
     
       .msg-timestamp
         align-self: flex-end
-        color: $gray
         flex-grow: 1
         font-size: 0.6em
       
@@ -216,7 +226,7 @@ $active-color: #5588ff
   
 .compose
   align-items: center
-  background-color: $med-light-gray
+  background-color: $base03
   display: flex
   flex-direction: row
   width: 100%
@@ -225,9 +235,9 @@ $active-color: #5588ff
   position: relative
 
 .input-container
-  background-color: $white
+  background-color: $base02
   background-clip: padding-box
-  border-color: $white
+  border-color: $base01
   border-radius: 3px
   border-style: solid
   border-width: 1px
@@ -238,8 +248,9 @@ $active-color: #5588ff
   width: 100%
 
   .input
-    background-color: $white
+    background-color: $base02
     border: 0
+    color: $base0
     -moz-user-select: text
     font-size: 15px
     max-height: 100px
@@ -250,8 +261,13 @@ $active-color: #5588ff
     width: 100%
 
 
-  .send-container
-    padding-left: 15px
+.send-container
+  margin-left: 15px
 
+  .sendbutton
+    background-color: transparent
+    border: 0
 
-
+    i
+      color: $base0
+      font-size: 1.5rem

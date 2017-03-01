@@ -78,9 +78,22 @@ io.on('connection', (socket) => {
    * 
    */
   socket.on('updatenick', (data) => {
-    var updates = {};
-    updates['/users/' + data.userid + '/nickname'] = data.nick;
-    firebase.database().ref().update(updates);
+    var msg = {
+      'sender': 'Admin',
+      'room': data.currentroom,
+      'timestamp': createTimestamp()
+    };
+    console.log(msg);
+    if (data.nick) {
+      var updates = {};
+      updates['/users/' + data.userid + '/nickname'] = data.nick;
+      firebase.database().ref().update(updates);
+      msg['content'] = 'Updated nickname to ' + data.nick;
+      socket.emit('chatmessage', msg);
+    } else {
+      data['content'] = 'Nickname cannot be empty.';
+      socket.emit('chatmessage', msg);
+    }
   });
 
 
@@ -88,11 +101,6 @@ io.on('connection', (socket) => {
    * Client can join different channels using the 
    * subscribe method on the client side. It triggers
    * the socket.join -method on the server side.
-   *
-   * TODO:
-   *  - Fix this so that rooms can actually be left.
-   *    Use the subscribe method below as an example
-   *    of how to retrieve the chatkey correctly.
    */
 
   socket.on('unsubscribe', (data) => {

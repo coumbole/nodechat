@@ -26,7 +26,7 @@ block content
       .settings-body
         h5 Nickname
         .input-container
-          input.input(readonly='true' type='text' value='' + nickname)#nickfield
+          input.input(readonly='true' type='text' value='' + nick)#nickfield
           i.fa.fa-pencil.fa-fw(aria-hidden="true")#editnick
     .chat-list
       .search
@@ -84,4 +84,5 @@ block content
         .input-container
           input.input(type='text' value='')#messageinput
         .send-container
-          input(type='submit' value='Send')
+          button(type='submit').sendbutton
+            i.fa.fa-paper-plane(aria-hidden='true')

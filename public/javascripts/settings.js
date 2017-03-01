@@ -10,6 +10,10 @@ $(window).ready( () => {
    */ 
   $('.settings').hide();
 
+  /* eslint-disable */
+  $('#nickfield').val(nick);
+  /* eslint-enable */
+
   /**
    * Opens up on of the two settings panels.
    * One is used for user's settings, other one
@@ -33,23 +37,25 @@ $(window).ready( () => {
   // When the client's focus is out of the
   // nickname field, send the data to server
   // and change the nickname
+  /* eslint-disable */
   $('#nickfield').focusout( () => {
     $('#nickfield').attr('readonly', true);
     var newnick = $('#nickfield').val();
-
-    /* eslint-disable */
-    // the nick variable is defined in chat.pug
-    nick = newnick;
-
-    var data = {
-      nick: newnick,
-      userid: user.uid,
-      currentroom: $('.selected').text()
-    };
-    /* eslint-enable */
-
-    socket.emit('updatenick', (data));
+    if (newnick == '') {
+      alert('Nickname cannot be empty');
+      $('#nickfield').val(nick);
+    } else {
+      // the nick variable is defined in chat.pug
+      nick = newnick;
+      var data = {
+        nick: newnick,
+        userid: user.uid,
+        currentroom: $('.selected').text()
+      };
+      socket.emit('updatenick', (data));
+    }
   });
+  /* eslint-enable */
 
   // Show the search panel when input field is focused
   $('#searchfield').focus(() => {

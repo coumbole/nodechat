@@ -69,6 +69,8 @@ function renderConvo(title, msg) {
 
 window.onload = () => {
 
+  $('.container').attr('id', 'chat');
+
   //Default chatroom is the first one on the list
   $('.chat-list')
     .children('.chat')
@@ -171,12 +173,12 @@ window.onload = () => {
       'room': getCurrentRoom()
     };
     socket.emit('chatmessage', data );
-    $('.input').val('');
+    $('#messageinput').val('');
   });
   /* eslint-enable */
 
   // Allow sending messages with enter
-  $('.input').keypress( (e) => {
+  $('#messageinput').keypress( (e) => {
     if (e.which === 13) {
       $('form').submit();
       return false;
