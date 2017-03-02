@@ -23,15 +23,10 @@ block content
         #[a(href='http://www.github.com/coumbole/nodechat') Github],
         in case you want to take a peek at it.
 
-    if !user
-      .flex-column
-        h2 To use the service, please sign up or login
-        .login
-          a(href="/login/").button Log in
-          a(href="/register/").button Sign up
-        p.
-          Registration is required in order to store users' data.
-    else
-      .flex-column
-          h2 Let's start chatting!
-          a(href="/chat/").button Chat
+    .flex-column
+      h2 To use the service, please sign up or login
+      .login
+        a(href="/login/").button Log in
+        a(href="/register/").button Sign up
+      p.
+        Registration is required in order to store users' data.

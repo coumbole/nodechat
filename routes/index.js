@@ -11,20 +11,27 @@ firebase.initializeApp(configs.firebase);
 var dbref = firebase.database().ref();
 
 /**
- * Middleware to ensure only authenticated users can chat
+ * Middleware to ensure only authenticated users can chat.
+ *
+ * When signing in, a userid-cookie is set before redirecting to chat.
+ *
+ * This middleware checks that cookie and redirects user to chat only if
+ * the cookie data exists.
  */
 function isAuthenticated(req, res, next) {
-  var user = firebase.auth().currentUser;
-  if (user) return next();
-  else res.redirect('/login');
+  var authKey = req.cookies.userid;
+  if (authKey === undefined) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
 }
 
 /*
  *  Homepage routing etc
  */
 router.get('/', (req, res) => {
-  var user = firebase.auth().currentUser;
-  res.render('index', { user: user });
+  res.render('index');
 });
 
 
@@ -35,20 +42,17 @@ router.get('/', (req, res) => {
  *  between '/chat/' and (req, res)
  */
 router.get('/chat/', isAuthenticated, (req, res) => {
-  var user = firebase.auth().currentUser;
-
-  console.log('Current user is ' + user.email);
+  var userid = req.cookies.userid;
 
   var nick = null;
   var chats = null;
   var rooms = null;
   
   dbref.once('value').then( (snapshot) => {
-
     // Try to set the nick and get user's rooms
     try {
-      nick = snapshot.child('users/' + user.uid + '/nickname').val();
-      rooms = snapshot.child('users/' + user.uid + '/rooms').val();
+      nick = snapshot.child('users/' + userid + '/nickname').val();
+      rooms = snapshot.child('users/' + userid + '/rooms').val();
     } catch(e) {
       console.log('error: ' + e);
       console.log('defaulting to anon username');
@@ -81,7 +85,7 @@ router.get('/chat/', isAuthenticated, (req, res) => {
       'chats': chatrooms,
       'pubs': pub_rooms,
       'nickname': nick,
-      'user': user
+      'userid': userid
     });
   });
 });
@@ -95,19 +99,21 @@ router.get('/login/', (req, res) => {
 });
 
 // Handle logging in 
+/* eslint-disable */
 router.post('/login/', (req, res) => {
+/* eslint-enable */
 
   firebase.auth().signInWithEmailAndPassword(
     req.body.email, 
     req.body.password)
-    .then( () => {
+    .then( (data) => {
       console.log('Sign in successful!');
+      console.log('Promise data from sign in: ' + data.uid);
+      res.cookie('userid', data.uid);
       res.redirect('/chat');
     })
     .catch( (error) => {
-      var ecode = error.code;
-      var emsg = error.message;
-      console.log('Error ' + ecode + ': ' + emsg);
+      console.log('Error ' + error.code + ': ' + error.message);
     });
 });
 

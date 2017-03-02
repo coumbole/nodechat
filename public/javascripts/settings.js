@@ -49,7 +49,7 @@ $(window).ready( () => {
       nick = newnick;
       var data = {
         nick: newnick,
-        userid: user.uid,
+        userid: userid,
         currentroom: $('.selected').text()
       };
       socket.emit('updatenick', (data));
@@ -98,7 +98,7 @@ $(window).ready( () => {
     /* eslint-disable */
     var roomdata = {
       room: currentroom,
-      userid: user.uid,
+      userid: userid,
       nick: nick
     };
     /* eslint-enable */

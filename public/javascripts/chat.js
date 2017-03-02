@@ -120,7 +120,7 @@ window.onload = () => {
       title: name,
       messages: msg,
       public: false,
-      admin: user.uid
+      admin: userid
     };
     /* eslint-enable */
 
@@ -169,7 +169,7 @@ window.onload = () => {
     var data = {
       'message': content,
       'nick': nick,
-      'sender': user,
+      'sender': userid,
       'room': getCurrentRoom()
     };
     socket.emit('chatmessage', data );
@@ -208,7 +208,7 @@ window.onload = () => {
     /* eslint-disable */
     var subsdata = {
       room: selected,
-      uid: user.uid
+      uid: userid
     };
     /* eslint-enable */
     socket.emit('subscribe', subsdata);

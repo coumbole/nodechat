@@ -1,20 +1,20 @@
 extends layout
 
 block content
-	.flex-column
-		.title
-			h2 Log in here
+  .flex-column
+    .title
+      h2 Log in here
 
-		.form-container
-			form(method="POST").login-form
-				ul.flex-outer
-					li
-						label(for="email" id="usrlabel") Email
-						input(name="email" type="text" id="email")
+    .form-container
+      form(method="POST").login-form
+        ul.flex-outer
+          li
+            label(for="email" id="usrlabel") Email
+            input(name="email" type="text" id="email")
 
-					li
-						label(for="password" id="passlabel") Password
-						input(name="password" type="password" id="password")
+          li
+            label(for="password" id="passlabel") Password
+            input(name="password" type="password" id="password")
 
-					li
-						input(type="submit" value="Login").loginsubmit
+          li
+            input(type="submit" value="Login").loginsubmit
