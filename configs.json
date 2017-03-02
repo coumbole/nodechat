@@ -1,7 +1,0 @@
-{
-    "firebase" : {
-        "apiKey" : "AIzaSyCWqifuKdVoQiNdqgwK3Bh_S-h167gyiEo",
-        "authDomain": "nodechat-225ab.firebaseapp.com",
-        "databaseURL": "https://nodechat-225ab.firebaseio.com"
-    }
-}

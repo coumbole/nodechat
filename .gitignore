@@ -39,6 +39,7 @@ jspm_packages
 # Sass cache
 .sass-cache
 
+configs.json
 
 .DS_Store
 
