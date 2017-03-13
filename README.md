@@ -3,10 +3,17 @@
 ## Check it out!
 This app is hosted in [Heroku](https://sheltered-ocean-95084.herokuapp.com/)!
 
-## Work in progress
+It can be tested with the following test user accounts:
 
-### Known bugs
-- [ ] Newly created chatrooms don't have chat icons
+- User 1
+ - email: mikko@email.com
+ - passwd: testuser
+ 
+- User 2
+ - email: pekka@email.com
+ - passwd: testuser
+
+## Work in progress
 
 ### TODO:
 
